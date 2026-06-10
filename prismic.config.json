@@ -1,0 +1,13 @@
+{
+  "repositoryName": "london32-web",
+  "routes": [
+    {
+      "type": "homepage",
+      "path": "/"
+    },
+    {
+      "type": "page",
+      "path": "/:uid"
+    }
+  ]
+}

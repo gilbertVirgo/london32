@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+:root {
+	--background: #080708;
+	--foreground: #ffffff;
+}
+
+@theme inline {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--font-sans: var(--font-geist-sans);
+	--font-mono: var(--font-geist-mono);
+
+	--color-brand-charcoal: #080708;
+	--color-brand-red: #df2935;
+	--color-brand-platinum: #e6e8e6;
+	--color-brand-yellow: #fdca40;
+}
+
+/* Roc Grotesk Variable Font Styles */
+.font-title-wide {
+	font-family: "roc-grotesk-variable", var(--font-sans), sans-serif;
+	font-weight: 800;
+	font-stretch: 125%;
+	font-variation-settings:
+		"wght" 700,
+		"wdth" 125;
+}
+
+.font-body-custom {
+	font-family: "roc-grotesk-variable", var(--font-sans), sans-serif;
+	font-weight: 400;
+	font-stretch: 95%;
+	font-variation-settings:
+		"wght" 400,
+		"wdth" 95;
+}
+
+body {
+	background: var(--background);
+	color: var(--foreground);
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.container {
+	display: flex;
+	max-width: 1280px;
+	width: 100%;
+}
