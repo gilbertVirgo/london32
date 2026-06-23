@@ -6,19 +6,30 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Navigation = () => {
-	const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+	const handleClick = (
+		e: React.MouseEvent<HTMLAnchorElement>,
+		href: string,
+	) => {
 		if (href && href.startsWith("#")) {
 			e.preventDefault();
 			const targetId = href.substring(1);
 			const element = document.getElementById(targetId);
 			if (element) {
-				element.scrollIntoView({ behavior: "smooth" });
+				const navElement = document.querySelector("nav");
+				const navHeight = navElement ? navElement.getBoundingClientRect().height : 0;
+				const elementPosition = element.getBoundingClientRect().top;
+				const offsetPosition = elementPosition + window.scrollY - navHeight;
+
+				window.scrollTo({
+					top: offsetPosition,
+					behavior: "smooth",
+				});
 			}
 		}
 	};
 
 	return (
-		<div className="wrapper py-4">
+		<nav className="wrapper py-4 sticky top-0 left-0 w-full z-100 bg-brand-charcoal/15 backdrop-blur-lg">
 			<div className="container flex-row! justify-between items-center">
 				<Image
 					src="/logo.svg"
@@ -51,7 +62,7 @@ const Navigation = () => {
 					</Button>
 				</div>
 			</div>
-		</div>
+		</nav>
 	);
 };
 

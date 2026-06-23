@@ -18,7 +18,15 @@ const Button = ({ children, href, icon, size }: ButtonProps) => {
 			const targetId = href.substring(1);
 			const element = document.getElementById(targetId);
 			if (element) {
-				element.scrollIntoView({ behavior: "smooth" });
+				const navElement = document.querySelector("nav");
+				const navHeight = navElement ? navElement.getBoundingClientRect().height : 0;
+				const elementPosition = element.getBoundingClientRect().top;
+				const offsetPosition = elementPosition + window.scrollY - navHeight;
+
+				window.scrollTo({
+					top: offsetPosition,
+					behavior: "smooth",
+				});
 			}
 		}
 	};
