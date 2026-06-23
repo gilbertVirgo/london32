@@ -81,8 +81,8 @@ export default function FeaturesCarousel() {
 						<div>
 							<Image
 								src={`/glyph/${activeItem.glyph}.png`}
-								width={192}
-								height={192}
+								width={256}
+								height={256}
 								alt={`${activeItem.title} glyph`}
 								className="object-contain"
 								priority
@@ -93,7 +93,7 @@ export default function FeaturesCarousel() {
 					{/* Active Text (Mimics #gods-word--items typography) */}
 					<div className="flex flex-col gap-2">
 						{/* Title Word-by-Word Drawers */}
-						<h3 className="text-5xl! flex flex-wrap">
+						<h3 className="text-5xl! leading-12 flex flex-wrap">
 							{activeItem.title.split(" ").map((word, i) => (
 								<span
 									key={i}

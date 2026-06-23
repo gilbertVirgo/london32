@@ -7,6 +7,8 @@
 	--color-brand-yellow: #fdca40;
 	--font-sans: "roc-grotesk-variable", sans-serif;
 	--font-serif: Times;
+
+	font-size: 20px;
 }
 
 @theme inline {

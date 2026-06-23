@@ -112,7 +112,7 @@ const VideoHeader = ({
 			>
 				<h2 ref={textRef}>
 					{/* Subtext with drawer clip animation */}
-					<span className="text-5xl block tracking-tight ">
+					<span className="text-4xl block tracking-tight ">
 						<span className="inline-block">{subtext}</span>
 					</span>
 
@@ -124,7 +124,7 @@ const VideoHeader = ({
 						{words.map((word, i) => (
 							<span
 								key={i}
-								className="inline-block overflow-y-hidden pb-[0.1em] pr-[0.22em]"
+								className="inline-block overflow-y-hidden pb-[0.1em] pr-[0.22em] shrink-0"
 							>
 								<span
 									className="inline-block vh-drawer-slide-up"
