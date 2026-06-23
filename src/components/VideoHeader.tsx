@@ -44,9 +44,9 @@ const VideoHeader = ({
 			const mainText = mainTextRef.current;
 			if (!container || !mainText) return;
 
-			// Reset scale and margin to measure true unscaled dimensions
-			mainText.style.transform = "none";
-			mainText.style.marginBottom = "0px";
+			// Reset font size and line height to measure true base layout dimensions
+			mainText.style.fontSize = "";
+			mainText.style.lineHeight = "";
 
 			const computedStyle = window.getComputedStyle(container);
 			const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0;
@@ -66,17 +66,15 @@ const VideoHeader = ({
 
 			if (maxWordWidth > availableWidth && availableWidth > 0) {
 				const scaleFactor = availableWidth / maxWordWidth;
-				const unscaledHeight = mainText.getBoundingClientRect().height;
-				const scaledHeight = unscaledHeight * scaleFactor;
-				const negMargin = -(unscaledHeight - scaledHeight);
+				const mainTextStyle = window.getComputedStyle(mainText);
+				const defaultFontSize = parseFloat(mainTextStyle.fontSize) || 128;
+				const defaultLineHeight = parseFloat(mainTextStyle.lineHeight) || (defaultFontSize * 1.1);
 
-				mainText.style.transform = `scale(${scaleFactor})`;
-				mainText.style.transformOrigin = "left top";
-				mainText.style.marginBottom = `${negMargin}px`;
+				mainText.style.fontSize = `${defaultFontSize * scaleFactor}px`;
+				mainText.style.lineHeight = `${defaultLineHeight * scaleFactor}px`;
 			} else {
-				mainText.style.transform = "";
-				mainText.style.transformOrigin = "";
-				mainText.style.marginBottom = "";
+				mainText.style.fontSize = "";
+				mainText.style.lineHeight = "";
 			}
 		};
 
