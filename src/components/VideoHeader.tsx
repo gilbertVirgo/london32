@@ -6,9 +6,10 @@ interface VideoHeaderProps {
 	videoSrc: string;
 	subtext: string;
 	text: string;
+	id?: string;
 }
 
-const VideoHeader = ({ videoSrc, subtext, text }: VideoHeaderProps) => {
+const VideoHeader = ({ videoSrc, subtext, text, id }: VideoHeaderProps) => {
 	const [isVisible, setIsVisible] = useState(false);
 	const textRef = useRef<HTMLHeadingElement | null>(null);
 	const containerRef = useRef<HTMLDivElement | null>(null);
@@ -91,6 +92,7 @@ const VideoHeader = ({ videoSrc, subtext, text }: VideoHeaderProps) => {
 	return (
 		<div
 			className={`wrapper overflow-y-hidden relative ${isVisible ? "is-visible" : ""}`}
+			id={id}
 		>
 			<video
 				className="inset-0 absolute z-0 w-full h-full object-cover object-center brightness-75"
@@ -106,7 +108,7 @@ const VideoHeader = ({ videoSrc, subtext, text }: VideoHeaderProps) => {
 			>
 				<h2 ref={textRef}>
 					{/* Subtext with drawer clip animation */}
-					<span className="text-4xl block tracking-tight ">
+					<span className="text-3xl block tracking-tight ">
 						<span className="inline-block">{subtext}</span>
 					</span>
 
@@ -114,7 +116,7 @@ const VideoHeader = ({ videoSrc, subtext, text }: VideoHeaderProps) => {
 					<span
 						ref={mainTextRef}
 						className={
-							"text-8xl leading-24 tracking-tight flex flex-wrap"
+							"text-7xl leading-18 tracking-tight flex flex-wrap"
 						}
 					>
 						{words.map((word, i) => (

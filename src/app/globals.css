@@ -44,6 +44,7 @@ p,
 	font-variation-settings:
 		"wght" 400,
 		"wdth" 95;
+	line-height: 135%;
 }
 
 body {

@@ -10,6 +10,7 @@ const HomeCentralHub = () => {
 				videoSrc="/video/central-hub.mov"
 				subtext="London 32 is"
 				text="a central hub"
+				id="central-hub"
 			/>
 			<div className="wrapper gap-16 relative pt-16 pb-48">
 				<div className="container">
