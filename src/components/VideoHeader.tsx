@@ -6,15 +6,9 @@ interface VideoHeaderProps {
 	videoSrc: string;
 	subtext: string;
 	text: string;
-	textSizeSmaller?: boolean;
 }
 
-const VideoHeader = ({
-	videoSrc,
-	subtext,
-	text,
-	textSizeSmaller,
-}: VideoHeaderProps) => {
+const VideoHeader = ({ videoSrc, subtext, text }: VideoHeaderProps) => {
 	const [isVisible, setIsVisible] = useState(false);
 	const textRef = useRef<HTMLHeadingElement | null>(null);
 	const containerRef = useRef<HTMLDivElement | null>(null);
@@ -119,7 +113,9 @@ const VideoHeader = ({
 					{/* Main Text with word-by-word drawer clip animation */}
 					<span
 						ref={mainTextRef}
-						className={`${textSizeSmaller ? "text-8xl leading-24" : "text-9xl leading-28"} tracking-tight flex flex-wrap`}
+						className={
+							"text-8xl leading-24 tracking-tight flex flex-wrap"
+						}
 					>
 						{words.map((word, i) => (
 							<span
