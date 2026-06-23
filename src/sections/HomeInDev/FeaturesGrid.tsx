@@ -127,8 +127,9 @@ export default function FeaturesCarousel() {
 						<div
 							key={item.glyph}
 							className="cursor-pointer select-none opacity-66 hover:opacity-100 transition-all duration-300 hover:scale-105 active:scale-95 transform"
+							onMouseEnter={() => handleSwap(index)}
 							onClick={() => handleSwap(index)}
-							title={`Click to view ${item.title}`}
+							title={`Hover to view ${item.title}`}
 						>
 							<Image
 								src={`/glyph/${item.glyph}.png`}
