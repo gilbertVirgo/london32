@@ -17,7 +17,7 @@ const HomeHero = () => {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setCurrentIndex((prev) => (prev + 1) % phrases.length);
-		}, 3000);
+		}, 2500);
 		return () => clearInterval(interval);
 	}, []);
 

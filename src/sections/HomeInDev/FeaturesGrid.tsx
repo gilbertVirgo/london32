@@ -93,7 +93,7 @@ export default function FeaturesCarousel() {
 					{/* Active Text (Mimics #gods-word--items typography) */}
 					<div className="flex flex-col gap-2">
 						{/* Title Word-by-Word Drawers */}
-						<h3 className="text-4xl! leading-9 flex flex-wrap">
+						<h3 className="text-4xl! leading-9 flex flex-wrap max-w-sm text-balance">
 							{activeItem.title.split(" ").map((word, i) => (
 								<span
 									key={i}
@@ -102,7 +102,7 @@ export default function FeaturesCarousel() {
 									<span
 										className="inline-block fc-drawer-slide-up"
 										style={{
-											animationDelay: `${0.1 + i * 0.1}s`,
+											animationDelay: `${i * 0.1}s`,
 											animationFillMode: "both",
 										}}
 									>

@@ -1,3 +1,5 @@
+"use client";
+
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactNode } from "react";
@@ -9,9 +11,21 @@ interface ButtonProps {
 }
 
 const Button = ({ children, href, icon }: ButtonProps) => {
+	const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+		if (href && href.startsWith("#")) {
+			e.preventDefault();
+			const targetId = href.substring(1);
+			const element = document.getElementById(targetId);
+			if (element) {
+				element.scrollIntoView({ behavior: "smooth" });
+			}
+		}
+	};
+
 	return (
 		<a
 			href={href}
+			onClick={handleClick}
 			className="group relative overflow-hidden border border-brand-yellow border-width-1 py-4 px-6 font-sans w-max flex flex-row items-center gap-4 text-brand-platinum hover:text-brand-charcoal transition-colors duration-500"
 		>
 			<span
