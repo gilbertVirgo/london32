@@ -51,14 +51,17 @@ const VideoHeader = ({
 			const computedStyle = window.getComputedStyle(container);
 			const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0;
 			const paddingRight = parseFloat(computedStyle.paddingRight) || 0;
-			const availableWidth = container.clientWidth - paddingLeft - paddingRight;
+			const availableWidth =
+				container.clientWidth - paddingLeft - paddingRight;
 
 			let maxWordWidth = 0;
 			const outerSpans = mainText.children;
 			for (let i = 0; i < outerSpans.length; i++) {
 				const child = outerSpans[i] as HTMLElement;
 				const innerSpan = child.firstElementChild as HTMLElement;
-				const wordWidth = innerSpan ? innerSpan.getBoundingClientRect().width : child.getBoundingClientRect().width;
+				const wordWidth = innerSpan
+					? innerSpan.getBoundingClientRect().width
+					: child.getBoundingClientRect().width;
 				if (wordWidth > maxWordWidth) {
 					maxWordWidth = wordWidth;
 				}
@@ -67,11 +70,10 @@ const VideoHeader = ({
 			if (maxWordWidth > availableWidth && availableWidth > 0) {
 				const scaleFactor = availableWidth / maxWordWidth;
 				const mainTextStyle = window.getComputedStyle(mainText);
-				const defaultFontSize = parseFloat(mainTextStyle.fontSize) || 128;
-				const defaultLineHeight = parseFloat(mainTextStyle.lineHeight) || (defaultFontSize * 1.1);
+				const defaultFontSize = parseFloat(mainTextStyle.fontSize);
 
 				mainText.style.fontSize = `${defaultFontSize * scaleFactor}px`;
-				mainText.style.lineHeight = `${defaultLineHeight * scaleFactor}px`;
+				mainText.style.lineHeight = `${defaultFontSize * scaleFactor * 0.875}px`;
 			} else {
 				mainText.style.fontSize = "";
 				mainText.style.lineHeight = "";
