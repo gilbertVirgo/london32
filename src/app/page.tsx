@@ -4,6 +4,7 @@ import HomeGodsWord from "@/sections/HomeGodsWord";
 import HomeInDev from "@/sections/HomeInDev";
 import HomeHero from "@/sections/HomeHero";
 import Navigation from "@/sections/Navigation";
+import Footer from "@/sections/Footer";
 
 // Features are managed in FeaturesCarousel component
 
@@ -16,6 +17,7 @@ export default function Home() {
 			<HomeNonDenom />
 			<HomeGodsWord />
 			<HomeInDev />
+			<Footer />
 		</main>
 	);
 }

@@ -137,4 +137,100 @@ test.describe("Smooth scrolling with navigation bar height offset", () => {
 			expect(Math.abs(scrollData.targetTop - scrollData.navBottom)).toBeLessThan(2);
 		}
 	});
+
+	test("should scroll to #about and align below sticky navigation bar when clicking footer About link", async ({ page }) => {
+		// Click the 'About' link in the footer
+		const aboutLink = page.locator('footer a:has-text("About")');
+		await aboutLink.click();
+
+		// Wait for scroll behavior to settle
+		await page.waitForTimeout(1500);
+
+		// Measure positions
+		const scrollData = await page.evaluate(() => {
+			const nav = document.querySelector("nav");
+			const target = document.getElementById("about");
+			if (!nav || !target) return null;
+
+			const navRect = nav.getBoundingClientRect();
+			const targetRect = target.getBoundingClientRect();
+
+			return {
+				navBottom: navRect.bottom,
+				targetTop: targetRect.top,
+				scrollY: window.scrollY,
+			};
+		});
+
+		expect(scrollData).not.toBeNull();
+		if (scrollData) {
+			console.log(`Scroll Y after clicking footer About: ${scrollData.scrollY}`);
+			console.log(`Nav bottom: ${scrollData.navBottom}, Target top: ${scrollData.targetTop}`);
+			expect(Math.abs(scrollData.targetTop - scrollData.navBottom)).toBeLessThan(2);
+		}
+	});
+
+	test("should scroll to #core-convictions and align below sticky navigation bar when clicking footer Core Convictions link", async ({ page }) => {
+		// Click the 'Core Convictions' link in the footer
+		const link = page.locator('footer a:has-text("Core Convictions")');
+		await link.click();
+
+		// Wait for scroll behavior to settle
+		await page.waitForTimeout(1500);
+
+		// Measure positions
+		const scrollData = await page.evaluate(() => {
+			const nav = document.querySelector("nav");
+			const target = document.getElementById("core-convictions");
+			if (!nav || !target) return null;
+
+			const navRect = nav.getBoundingClientRect();
+			const targetRect = target.getBoundingClientRect();
+
+			return {
+				navBottom: navRect.bottom,
+				targetTop: targetRect.top,
+				scrollY: window.scrollY,
+			};
+		});
+
+		expect(scrollData).not.toBeNull();
+		if (scrollData) {
+			console.log(`Scroll Y after clicking footer Core Convictions: ${scrollData.scrollY}`);
+			console.log(`Nav bottom: ${scrollData.navBottom}, Target top: ${scrollData.targetTop}`);
+			expect(Math.abs(scrollData.targetTop - scrollData.navBottom)).toBeLessThan(2);
+		}
+	});
+
+	test("should scroll to #stay-updated and align below sticky navigation bar when clicking footer Stay Updated link", async ({ page }) => {
+		// Click the 'Stay Updated' link in the footer
+		const link = page.locator('footer a:has-text("Stay Updated")');
+		await link.click();
+
+		// Wait for scroll behavior to settle
+		await page.waitForTimeout(1500);
+
+		// Measure positions
+		const scrollData = await page.evaluate(() => {
+			const nav = document.querySelector("nav");
+			const target = document.getElementById("stay-updated");
+			if (!nav || !target) return null;
+
+			const navRect = nav.getBoundingClientRect();
+			const targetRect = target.getBoundingClientRect();
+
+			return {
+				navBottom: navRect.bottom,
+				targetTop: targetRect.top,
+				scrollY: window.scrollY,
+			};
+		});
+
+		expect(scrollData).not.toBeNull();
+		if (scrollData) {
+			console.log(`Scroll Y after clicking footer Stay Updated: ${scrollData.scrollY}`);
+			console.log(`Nav bottom: ${scrollData.navBottom}, Target top: ${scrollData.targetTop}`);
+			expect(Math.abs(scrollData.targetTop - scrollData.navBottom)).toBeLessThan(2);
+		}
+	});
 });

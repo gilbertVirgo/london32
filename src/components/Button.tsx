@@ -4,6 +4,8 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactNode } from "react";
 
+import { handleSmoothScroll } from "@/utils/scroll";
+
 interface ButtonProps {
 	children: ReactNode;
 	href: string | undefined;
@@ -13,22 +15,7 @@ interface ButtonProps {
 
 const Button = ({ children, href, icon, size }: ButtonProps) => {
 	const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-		if (href && href.startsWith("#")) {
-			e.preventDefault();
-			const targetId = href.substring(1);
-			const element = document.getElementById(targetId);
-			if (element) {
-				const navElement = document.querySelector("nav");
-				const navHeight = navElement ? navElement.getBoundingClientRect().height : 0;
-				const elementPosition = element.getBoundingClientRect().top;
-				const offsetPosition = elementPosition + window.scrollY - navHeight;
-
-				window.scrollTo({
-					top: offsetPosition,
-					behavior: "smooth",
-				});
-			}
-		}
+		handleSmoothScroll(e, href);
 	};
 
 	const sizeSelectors = { sm: "py-3 px-4", md: "py-4 px-6" }[size || "md"];

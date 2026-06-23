@@ -5,27 +5,14 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons/faEnvelope";
 import Image from "next/image";
 import Link from "next/link";
 
+import { handleSmoothScroll } from "@/utils/scroll";
+
 const Navigation = () => {
 	const handleClick = (
 		e: React.MouseEvent<HTMLAnchorElement>,
 		href: string,
 	) => {
-		if (href && href.startsWith("#")) {
-			e.preventDefault();
-			const targetId = href.substring(1);
-			const element = document.getElementById(targetId);
-			if (element) {
-				const navElement = document.querySelector("nav");
-				const navHeight = navElement ? navElement.getBoundingClientRect().height : 0;
-				const elementPosition = element.getBoundingClientRect().top;
-				const offsetPosition = elementPosition + window.scrollY - navHeight;
-
-				window.scrollTo({
-					top: offsetPosition,
-					behavior: "smooth",
-				});
-			}
-		}
+		handleSmoothScroll(e, href);
 	};
 
 	return (
