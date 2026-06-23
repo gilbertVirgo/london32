@@ -1,0 +1,33 @@
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ReactNode } from "react";
+
+interface ButtonProps {
+	children: ReactNode;
+	href: string | undefined;
+	icon?: IconProp;
+}
+
+const Button = ({ children, href, icon }: ButtonProps) => {
+	return (
+		<a
+			href={href}
+			className="group relative overflow-hidden border border-brand-yellow border-width-1 py-4 px-6 font-sans w-max flex flex-row items-center gap-4 text-brand-platinum hover:text-brand-charcoal transition-colors duration-500"
+		>
+			<span
+				aria-hidden
+				className="absolute inset-0 bg-brand-yellow translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+			/>
+			<span className="relative z-10">{children}</span>
+			{icon && (
+				<FontAwesomeIcon
+					icon={icon}
+					className="relative z-10"
+					color="currentColor"
+				/>
+			)}
+		</a>
+	);
+};
+
+export default Button;

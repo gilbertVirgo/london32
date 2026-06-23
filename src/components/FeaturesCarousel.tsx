@@ -1,0 +1,169 @@
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+
+interface FeatureItem {
+	glyph: string;
+	title: string;
+	body: string;
+}
+
+const INITIAL_FEATURES: FeatureItem[] = [
+	{
+		glyph: "church",
+		title: "Church Directory",
+		body: "Find churches by borough, denomination, or community.",
+	},
+	{
+		glyph: "three-nodes",
+		title: "Pastors' Hubs",
+		body: "Connect with local leaders and build borough networks.",
+	},
+	{
+		glyph: "calendar",
+		title: "Events Calendar",
+		body: "Discover and coordinate events across the city.",
+	},
+	{
+		glyph: "hammer",
+		title: "Shared Resources",
+		body: "Access teaching, training, and ministry tools.",
+	},
+	{
+		glyph: "chatboxes",
+		title: "Discussion Forums",
+		body: "Share ideas, ask questions, and support one another.",
+	},
+	{
+		glyph: "target",
+		title: "Volunteer Opportunities",
+		body: "Find ways to serve in mission and community work.",
+	},
+	{
+		glyph: "bell",
+		title: "News & Updates",
+		body: "Stay informed about church life across London.",
+	},
+];
+
+export default function FeaturesCarousel() {
+	const [activeItem, setActiveItem] = useState<FeatureItem>(
+		INITIAL_FEATURES[0],
+	);
+	const [gridItems, setGridItems] = useState<FeatureItem[]>(
+		INITIAL_FEATURES.slice(1),
+	);
+
+	const handleSwap = (clickedIndex: number) => {
+		const clickedItem = gridItems[clickedIndex];
+		const currentActive = activeItem;
+
+		// Swap active item and the clicked grid item
+		setActiveItem(clickedItem);
+		setGridItems((prev) => {
+			const nextGrid = [...prev];
+			nextGrid[clickedIndex] = currentActive;
+			return nextGrid;
+		});
+	};
+
+	return (
+		<>
+			<div className="flex flex-row justify-between items-start gap-16 w-full">
+				{/* Left Side: Active Feature (Glyph + Text) */}
+				<div
+					key={activeItem.glyph}
+					className="flex flex-row items-center gap-8 max-w-2xl w-full"
+				>
+					{/* Active Glyph Drawer */}
+					<div className="shrink-0 overflow-hidden">
+						<div>
+							<Image
+								src={`/glyph/${activeItem.glyph}.png`}
+								width={192}
+								height={192}
+								alt={`${activeItem.title} glyph`}
+								className="object-contain"
+								priority
+							/>
+						</div>
+					</div>
+
+					{/* Active Text (Mimics #gods-word--items typography) */}
+					<div className="flex flex-col gap-2">
+						{/* Title Word-by-Word Drawers */}
+						<h3 className="text-5xl! flex flex-wrap">
+							{activeItem.title.split(" ").map((word, i) => (
+								<span
+									key={i}
+									className="inline-block overflow-hidden mr-[0.25em] pb-1"
+								>
+									<span
+										className="inline-block fc-drawer-slide-up"
+										style={{
+											animationDelay: `${0.1 + i * 0.1}s`,
+											animationFillMode: "both",
+										}}
+									>
+										{word}
+									</span>
+								</span>
+							))}
+						</h3>
+
+						{/* Body Drawer */}
+						<div className="overflow-hidden pb-2">
+							<div
+								className="fc-drawer-slide-up"
+								style={{
+									animationDelay: `${0.1 + activeItem.title.split(" ").length * 0.1}s`,
+									animationFillMode: "both",
+								}}
+							>
+								<p>{activeItem.body}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Right Side: Grid of remaining 6 features */}
+				<div className="grid grid-cols-3 gap-6 ">
+					{gridItems.map((item, index) => (
+						<div
+							key={item.glyph}
+							className="cursor-pointer select-none opacity-66 hover:opacity-100 transition-all duration-300 hover:scale-105 active:scale-95 transform"
+							onClick={() => handleSwap(index)}
+							title={`Click to view ${item.title}`}
+						>
+							<Image
+								src={`/glyph/${item.glyph}.png`}
+								width={128}
+								height={128}
+								alt={`${item.title} glyph`}
+								className="object-contain"
+							/>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* CSS Animations */}
+			<style jsx global>{`
+				@keyframes fcDrawerSlideUp {
+					from {
+						transform: translateY(110%);
+					}
+					to {
+						transform: translateY(0);
+					}
+				}
+				.fc-drawer-slide-up {
+					transform: translateY(110%);
+					animation: fcDrawerSlideUp 0.8s
+						cubic-bezier(0.16, 1, 0.3, 1) forwards;
+				}
+			`}</style>
+		</>
+	);
+}
