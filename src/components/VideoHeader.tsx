@@ -6,11 +6,19 @@ interface VideoHeaderProps {
 	videoSrc: string;
 	subtext: string;
 	text: string;
+	textSizeSmaller?: boolean;
 }
 
-const VideoHeader = ({ videoSrc, subtext, text }: VideoHeaderProps) => {
+const VideoHeader = ({
+	videoSrc,
+	subtext,
+	text,
+	textSizeSmaller,
+}: VideoHeaderProps) => {
 	const [isVisible, setIsVisible] = useState(false);
 	const textRef = useRef<HTMLHeadingElement | null>(null);
+	const containerRef = useRef<HTMLDivElement | null>(null);
+	const mainTextRef = useRef<HTMLSpanElement | null>(null);
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -30,6 +38,60 @@ const VideoHeader = ({ videoSrc, subtext, text }: VideoHeaderProps) => {
 		return () => observer.disconnect();
 	}, []);
 
+	useEffect(() => {
+		const measureAndScale = () => {
+			const container = containerRef.current;
+			const mainText = mainTextRef.current;
+			if (!container || !mainText) return;
+
+			// Reset scale and margin to measure true unscaled dimensions
+			mainText.style.transform = "none";
+			mainText.style.marginBottom = "0px";
+
+			const computedStyle = window.getComputedStyle(container);
+			const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0;
+			const paddingRight = parseFloat(computedStyle.paddingRight) || 0;
+			const availableWidth = container.clientWidth - paddingLeft - paddingRight;
+
+			let maxWordWidth = 0;
+			const outerSpans = mainText.children;
+			for (let i = 0; i < outerSpans.length; i++) {
+				const child = outerSpans[i] as HTMLElement;
+				const innerSpan = child.firstElementChild as HTMLElement;
+				const wordWidth = innerSpan ? innerSpan.getBoundingClientRect().width : child.getBoundingClientRect().width;
+				if (wordWidth > maxWordWidth) {
+					maxWordWidth = wordWidth;
+				}
+			}
+
+			if (maxWordWidth > availableWidth && availableWidth > 0) {
+				const scaleFactor = availableWidth / maxWordWidth;
+				const unscaledHeight = mainText.getBoundingClientRect().height;
+				const scaledHeight = unscaledHeight * scaleFactor;
+				const negMargin = -(unscaledHeight - scaledHeight);
+
+				mainText.style.transform = `scale(${scaleFactor})`;
+				mainText.style.transformOrigin = "left top";
+				mainText.style.marginBottom = `${negMargin}px`;
+			} else {
+				mainText.style.transform = "";
+				mainText.style.transformOrigin = "";
+				mainText.style.marginBottom = "";
+			}
+		};
+
+		measureAndScale();
+
+		window.addEventListener("resize", measureAndScale);
+		if (typeof document !== "undefined" && document.fonts) {
+			document.fonts.ready.then(measureAndScale);
+		}
+
+		return () => {
+			window.removeEventListener("resize", measureAndScale);
+		};
+	}, [text]);
+
 	const words = text.split(" ");
 
 	return (
@@ -44,7 +106,10 @@ const VideoHeader = ({ videoSrc, subtext, text }: VideoHeaderProps) => {
 				playsInline
 				src={videoSrc}
 			/>
-			<div className="container pt-48 pb-16 relative z-10 gap-6">
+			<div
+				ref={containerRef}
+				className="container pt-48 pb-16 relative z-10 gap-6"
+			>
 				<h2 ref={textRef}>
 					{/* Subtext with drawer clip animation */}
 					<span className="text-5xl block tracking-tight ">
@@ -52,7 +117,10 @@ const VideoHeader = ({ videoSrc, subtext, text }: VideoHeaderProps) => {
 					</span>
 
 					{/* Main Text with word-by-word drawer clip animation */}
-					<span className="text-9xl leading-28 tracking-tight flex flex-wrap">
+					<span
+						ref={mainTextRef}
+						className={`${textSizeSmaller ? "text-8xl leading-24" : "text-9xl leading-28"} tracking-tight flex flex-wrap`}
+					>
 						{words.map((word, i) => (
 							<span
 								key={i}
