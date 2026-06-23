@@ -63,22 +63,22 @@ const HomeGodsWord = () => {
 						].map(({ glyph, title, body }, index) => (
 							<div
 								key={`gods-word-detail-wrapper-${index}`}
-								className="overflow-hidden flex-1"
+								className="flex flex-col gap-6 flex-1"
 							>
-								<div
-									className="flex flex-col gap-6 gw-drawer-slide-up"
-									style={{
-										animationDelay: `${0.1 + index * 0.15}s`,
-										animationFillMode: "both",
-									}}
-								>
-									<Image
-										src={`/glyph/${glyph}.png`}
-										width={192}
-										height={192}
-										alt={`${glyph} glyph`}
-									/>
-									<div className="flex flex-col gap-2">
+								<Image
+									src={`/glyph/${glyph}.png`}
+									width={192}
+									height={192}
+									alt={`${glyph} glyph`}
+								/>
+								<div className="overflow-hidden">
+									<div
+										className="flex flex-col gap-2 gw-drawer-slide-up"
+										style={{
+											animationDelay: `${0.1 + index * 0.15}s`,
+											animationFillMode: "both",
+										}}
+									>
 										<h3 className="text-4xl!">{title}</h3>
 										<p>{body}</p>
 									</div>
