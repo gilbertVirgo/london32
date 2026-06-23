@@ -8,9 +8,10 @@ interface ButtonProps {
 	children: ReactNode;
 	href: string | undefined;
 	icon?: IconProp;
+	size?: "sm" | "md";
 }
 
-const Button = ({ children, href, icon }: ButtonProps) => {
+const Button = ({ children, href, icon, size }: ButtonProps) => {
 	const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
 		if (href && href.startsWith("#")) {
 			e.preventDefault();
@@ -22,11 +23,13 @@ const Button = ({ children, href, icon }: ButtonProps) => {
 		}
 	};
 
+	const sizeSelectors = { sm: "py-3 px-4", md: "py-4 px-6" }[size || "md"];
+
 	return (
 		<a
 			href={href}
 			onClick={handleClick}
-			className="group relative overflow-hidden border border-brand-yellow border-width-1 py-4 px-6 font-sans w-max flex flex-row items-center gap-4 text-brand-platinum hover:text-brand-charcoal transition-colors duration-500"
+			className={`group relative overflow-hidden border border-brand-yellow border-width-1 font-sans w-max flex flex-row items-center gap-4 text-brand-platinum hover:text-brand-charcoal transition-colors duration-500 ${sizeSelectors}`}
 		>
 			<span
 				aria-hidden

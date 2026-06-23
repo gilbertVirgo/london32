@@ -18,7 +18,7 @@ const HomeGodsWord = () => {
 					observer.disconnect();
 				}
 			},
-			{ threshold: 0, rootMargin: "0px 0px -15% 0px" },
+			{ threshold: 0, rootMargin: "-25% 0px -25% 0px" },
 		);
 
 		if (sectionRef.current) {
@@ -34,6 +34,7 @@ const HomeGodsWord = () => {
 				videoSrc="/video/gods-word.mov"
 				subtext="London 32 is"
 				text="shaped by the authority of God’s word"
+				id="core-convictions"
 			/>
 			<div
 				ref={sectionRef}

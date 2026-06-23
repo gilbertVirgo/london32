@@ -10,6 +10,7 @@ const HomeInDev = () => {
 				videoSrc="/video/in-dev.mov"
 				subtext="London 32 is"
 				text="in development"
+				id="stay-updated"
 			/>
 			<div className="wrapper gap-18 relative pt-16 pb-48 ">
 				<div className="container gap-12" id="in-dev">

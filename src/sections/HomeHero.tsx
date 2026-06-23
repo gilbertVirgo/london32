@@ -17,7 +17,7 @@ const HomeHero = () => {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setCurrentIndex((prev) => (prev + 1) % phrases.length);
-		}, 2500);
+		}, 2000);
 		return () => clearInterval(interval);
 	}, []);
 
@@ -186,7 +186,7 @@ const HomeHero = () => {
 					}
 				`}</style>
 			</div>
-			<div className="container py-24 gap-16 items-center">
+			<div className="container py-24 gap-16 items-center" id="about">
 				<p className="text-center text-balance max-w-md">
 					London has a vibrant and diverse Christian community
 					spanning all 32 boroughs. But connection across such a large
