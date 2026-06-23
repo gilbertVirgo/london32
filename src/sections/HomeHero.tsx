@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const phrases = ["Think Church", "Think London", "Think London 32"];
+const phrases = ["Church", "London", "London 32"];
 
 const HomeHero = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -83,11 +83,18 @@ const HomeHero = () => {
 				<h1
 					ref={mainTextRef}
 					className="text-9xl leading-28 tracking-tight flex flex-wrap pb-2"
-					key={currentIndex}
 				>
+					{/* Static persistent word */}
+					<span className="inline-block overflow-hidden mr-[0.25em] shrink-0">
+						<span className="inline-block hero-drawer-slide-up">
+							Think
+						</span>
+					</span>
+
+					{/* Cycled words */}
 					{words.map((word, i) => (
 						<span
-							key={i}
+							key={`${currentIndex}-${i}`}
 							className="inline-block overflow-hidden mr-[0.25em] shrink-0"
 						>
 							<span
