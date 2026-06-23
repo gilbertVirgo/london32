@@ -201,34 +201,20 @@ const HomeHero = () => {
 					xmlns="http://www.w3.org/2000/svg"
 					className="w-full h-auto overflow-hidden"
 				>
-					{bridgeGapPaths.map((path, index) => {
-						let delayGroup = 0;
-						if (index >= 23) {
-							delayGroup = 0;
-						} else if (index >= 19) {
-							delayGroup = 1;
-						} else if (index >= 14) {
-							delayGroup = 2;
-						} else if (index >= 10) {
-							delayGroup = 3;
-						} else if (index >= 5) {
-							delayGroup = 4;
-						} else {
-							delayGroup = 5;
-						}
-
-						return (
+					{bridgeGapPaths.map((wordPaths, wordIndex) => {
+						const delay = `${(bridgeGapPaths.length - 1 - wordIndex) * 0.15}s`;
+						return wordPaths.map((path, pathIndex) => (
 							<path
-								key={index}
+								key={`${wordIndex}-${pathIndex}`}
 								d={path.d}
 								fill={path.fill}
 								className={`svg-letter-drawer ${svgVisible ? "svg-letter-drawer-animate" : ""}`}
 								style={{
-									animationDelay: `${delayGroup * 0.15}s`,
+									animationDelay: delay,
 									animationFillMode: "both",
 								}}
 							/>
-						);
+						));
 					})}
 				</svg>
 				<p className="text-center text-balance max-w-md">
