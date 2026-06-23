@@ -1,25 +1,32 @@
 @import "tailwindcss";
 
 :root {
-	--background: #080708;
-	--foreground: #ffffff;
-}
-
-@theme inline {
-	--color-background: var(--background);
-	--color-foreground: var(--foreground);
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
-
 	--color-brand-charcoal: #080708;
 	--color-brand-red: #df2935;
 	--color-brand-platinum: #e6e8e6;
 	--color-brand-yellow: #fdca40;
+	--font-sans: "roc-grotesk-variable", sans-serif;
+	--font-serif: Times;
+}
+
+@theme inline {
+	--color-background: var(--color-brand-charcoal);
+	--color-foreground: var(--color-brand-platinum);
+	--font-sans: var(--font-sans);
+	--font-serif: var(--font-serif);
+
+	--color-brand-charcoal: var(--color-brand-charcoal);
+	--color-brand-red: var(--color-brand-red);
+	--color-brand-platinum: var(--color-brand-platinum);
+	--color-brand-yellow: var(--color-brand-yellow);
 }
 
 /* Roc Grotesk Variable Font Styles */
-.font-title-wide {
-	font-family: "roc-grotesk-variable", var(--font-sans), sans-serif;
+h1,
+h2,
+h3,
+.font-title {
+	font-family: var(--font-sans), sans-serif;
 	font-weight: 800;
 	font-stretch: 125%;
 	font-variation-settings:
@@ -27,7 +34,8 @@
 		"wdth" 125;
 }
 
-.font-body-custom {
+p,
+.font-body {
 	font-family: "roc-grotesk-variable", var(--font-sans), sans-serif;
 	font-weight: 400;
 	font-stretch: 95%;
@@ -37,19 +45,14 @@
 }
 
 body {
-	background: var(--background);
-	color: var(--foreground);
+	color: var(--color-brand-platinum);
 	font-family: Arial, Helvetica, sans-serif;
 }
 
 .wrapper {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+	@apply flex flex-col items-center w-full;
 }
 
 .container {
-	display: flex;
-	max-width: 1280px;
-	width: 100%;
+	@apply flex flex-col max-w-7xl w-full px-4;
 }

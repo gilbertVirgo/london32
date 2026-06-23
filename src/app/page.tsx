@@ -1,89 +1,150 @@
+import ConnectAnimation from "./ConnectAnimation";
+import CommunicateAnimation from "./CommunicateAnimation";
+import CollaborateAnimation from "./CollaborateAnimation";
+import VideoHeader from "@/components/VideoHeader";
+import Image from "next/image";
+import Button from "@/components/Button";
+import { faBible } from "@fortawesome/free-solid-svg-icons/faBible";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons/faEnvelope";
+import FeaturesCarousel from "@/components/FeaturesCarousel";
+
+// Features are managed in FeaturesCarousel component
+
 export default function Home() {
 	return (
-		<main className="flex flex-col">
-			<div className="bg-brand-charcoal flex flex-col">
-				{/* 1. Video Hero Section */}
-				<section className="relative w-full h-[420px] overflow-hidden">
-					{/* Background Video */}
-					<video
-						autoPlay
-						loop
-						muted
-						playsInline
-						className="absolute inset-0 w-full h-full object-cover z-0"
-					>
-						<source src="/video/central-hub.mov" type="video/mp4" />
-						<source
-							src="/video/central-hub.mov"
-							type="video/quicktime"
-						/>
-					</video>
-
-					{/* Dark Overlay (0.33 opacity) */}
-					<div className="absolute inset-0 bg-[#080708]/33 z-10" />
-
-					{/* Text Overlay */}
-					<div className="absolute inset-0 z-20 flex flex-col justify-center">
-						<div className="max-w-[1280px] mx-auto px-6 md:px-16 lg:px-24 w-full">
-							<div className="flex flex-col space-y-2 select-none">
-								<span className="font-body-custom text-[32px] sm:text-[40px] md:text-[48px] text-white tracking-normal leading-[1.2]">
-									London 32 is
-								</span>
-								<h1 className="font-title-wide text-[56px] sm:text-[88px] md:text-[112px] lg:text-[128px] text-white leading-[0.9] tracking-tight">
-									a central hub
-									<span className="text-brand-yellow">.</span>
-								</h1>
-							</div>
-						</div>
+		<main className="flex flex-col bg-brand-charcoal">
+			<VideoHeader
+				videoSrc="/video/central-hub.mov"
+				subtext="London 32 is"
+				text="a central hub"
+			/>
+			<div className="wrapper gap-16 relative pt-16 pb-48">
+				<div className="container">
+					<p className="max-w-md text-balance">
+						We help{" "}
+						<span className="text-brand-yellow">churches</span>,{" "}
+						<span className="text-brand-yellow">Christians</span>{" "}
+						and <span className="text-brand-yellow">pastors</span>{" "}
+						to
+					</p>
+				</div>
+				<div className="gap-8 wrapper">
+					<h3 className="text-6xl container">connect,</h3>
+					<ConnectAnimation />
+				</div>
+				<div className="gap-8 wrapper">
+					<h3 className="text-6xl container">communicate,</h3>
+					<CommunicateAnimation />
+				</div>
+				<div className="gap-8 wrapper">
+					<h3 className="text-6xl container">and collaborate.</h3>
+					<CollaborateAnimation />
+				</div>
+			</div>
+			<VideoHeader
+				videoSrc="/video/non-denom.mov"
+				subtext="London 32 is"
+				text="non-denominational and independent"
+			/>
+			<div className="wrapper gap-32 relative pt-16 pb-48 ">
+				<div className="container flex-row! justify-between">
+					<p className="max-w-md text-balance">
+						We&rsquo;re supported by Christians who long for{" "}
+						<span className="text-brand-yellow">
+							the glory of Christ
+						</span>
+						,{" "}
+						<span className="text-brand-yellow">
+							the health of his Church
+						</span>{" "}
+						and{" "}
+						<span className="text-brand-yellow">
+							the salvation of London
+						</span>
+						.
+					</p>
+					<div className="flex flex-row gap-8">
+						{["cross", "church", "target"].map((glyph, index) => (
+							<Image
+								alt={`${glyph} glyph`}
+								width={128}
+								height={128}
+								key={`non-denom-glyph-${index}`}
+								src={`/glyph/${glyph}.png`}
+							/>
+						))}
 					</div>
-				</section>
-
-				{/* 2. Content Section */}
-				<section className="bg-[#080708] pt-20 pb-32">
-					<div className="max-w-[1280px] mx-auto px-6 md:px-16 lg:px-24 w-full">
-						{/* Introductory copy */}
-						<div className="grid grid-cols-12 gap-4 mb-24">
-							<div className="col-span-12">
-								<p className="font-body-custom text-[20px] sm:text-[24px] text-white leading-relaxed">
-									We help{" "}
-									<span className="text-brand-yellow">
-										churches
-									</span>
-									,{" "}
-									<span className="text-brand-yellow">
-										Christians
-									</span>{" "}
-									and{" "}
-									<span className="text-brand-yellow">
-										pastors
-									</span>{" "}
-									to
-								</p>
+				</div>
+			</div>
+			<VideoHeader
+				videoSrc="/video/gods-word.mov"
+				subtext="London 32 is"
+				text="shaped by the authority of God’s word"
+			/>
+			<div className="wrapper gap-18 relative pt-16 pb-48 ">
+				<div className="container gap-12">
+					<p className="max-w-md text-balance">
+						We hold to essential biblical truths:
+					</p>
+					<div className="flex flex-row gap-12" id="gods-word--items">
+						{[
+							{
+								glyph: "cross",
+								title: "Salvation",
+								body: "Salvation by grace through faith in Christ, grounded in his atoning death and resurrection.",
+							},
+							{
+								glyph: "target",
+								title: "Ministry",
+								body: "Word-centred ministry: preaching Scripture to equip the Church and proclaim Christ.",
+							},
+							{
+								glyph: "two-rings",
+								title: "Marriage",
+								body: "Marriage as a covenant union of one man and one woman, with distinct, complementary roles.",
+							},
+						].map(({ glyph, title, body }, index) => (
+							<div
+								className="flex flex-col gap-6"
+								key={`gods-word-detail-${index}`}
+							>
+								<Image
+									src={`/glyph/${glyph}.png`}
+									width={192}
+									height={192}
+									alt={`${glyph} glyph`}
+								/>
+								<div className="flex flex-col gap-2">
+									<h3 className="text-5xl!">{title}</h3>
+									<p>{body}</p>
+								</div>
 							</div>
-						</div>
-
-						{/* Connect section title */}
-						<div className="flex flex-col mb-24">
-							<h2 className="font-title-wide text-[40px] sm:text-[52px] md:text-[64px] text-white leading-none tracking-tight">
-								connect,
-							</h2>
-						</div>
-
-						{/* Communicate section title */}
-						<div className="flex flex-col mb-24">
-							<h2 className="font-title-wide text-[40px] sm:text-[52px] md:text-[64px] text-white leading-none tracking-tight">
-								communicate,
-							</h2>
-						</div>
-
-						{/* Collaborate section title */}
-						<div className="flex flex-col">
-							<h2 className="font-title-wide text-[40px] sm:text-[52px] md:text-[64px] text-white leading-none tracking-tight">
-								and collaborate.
-							</h2>
-						</div>
+						))}
 					</div>
-				</section>
+				</div>
+				<div className="container">
+					<Button href="" icon={faBible}>
+						Read our Statement of Faith
+					</Button>
+				</div>
+			</div>
+			<VideoHeader
+				videoSrc="/video/in-dev.mov"
+				subtext="London 32 is"
+				text="in development"
+			/>
+			<div className="wrapper gap-18 relative pt-16 pb-48 ">
+				<div className="container gap-12" id="in-dev">
+					<p className="max-w-md text-balance">
+						Features will include:
+					</p>
+					<FeaturesCarousel />
+				</div>
+				<div className="container">
+					<Button href="" icon={faEnvelope}>
+						Stay updated
+					</Button>
+				</div>
 			</div>
 		</main>
 	);
