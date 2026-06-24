@@ -140,11 +140,10 @@ const HomeHero = () => {
 
 	return (
 		<>
-			<div
-				className={`wrapper py-12 md:py-32 h-[calc(100vh-var(--nav-height,136px))] md:h-auto relative`}
-			>
+			<div className={`wrapper py-12 md:py-32  md:min-h-auto relative`}>
 				<video
 					src="/video/reel.mov"
+					poster="/video/reel.jpg"
 					playsInline
 					loop
 					muted
@@ -153,12 +152,12 @@ const HomeHero = () => {
 				/>
 				<div
 					ref={containerRef}
-					className="container relative z-10 h-full md:h-auto justify-between md:justify-start md:gap-12"
+					className="container relative z-10 h-full md:h-auto justify-between md:justify-start gap-12"
 				>
 					<div className="flex md:flex-0 flex-col gap-4 relative">
 						<h1
 							ref={mainTextRef}
-							className="text-6xl md:text-9xl leading-12 md:leading-26 tracking-tight"
+							className="text-6xl md:text-8xl lg:text-9xl leading-12 md:leading-20 lg:leading-26 tracking-tight"
 						>
 							{/* Static persistent word */}
 							<span className="block overflow-hidden mr-[0.25em] h-min ">
@@ -195,7 +194,7 @@ const HomeHero = () => {
 							{phrases.map((phrase, phraseIdx) => (
 								<h1
 									key={`hidden-h1-${phraseIdx}`}
-									className="text-6xl md:text-9xl leading-12 md:leading-26 tracking-tight"
+									className="text-6xl md:text-8xl lg:text-9xl leading-12 md:leading-20 lg:leading-26 tracking-tight"
 								>
 									{/* Static persistent word */}
 									<span className="block overflow-hidden mr-[0.25em] h-min">

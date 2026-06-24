@@ -120,6 +120,7 @@ const VideoHeader = ({ videoSrc, subtext, text, id }: VideoHeaderProps) => {
 				loop
 				playsInline
 				src={videoSrc}
+				poster={videoSrc.replace(".mov", ".jpg")}
 			/>
 			<div
 				ref={containerRef}
