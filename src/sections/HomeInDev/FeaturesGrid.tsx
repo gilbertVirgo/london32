@@ -55,7 +55,9 @@ export default function FeaturesCarousel() {
 		INITIAL_FEATURES.slice(1),
 	);
 	const [isAutoPlayActive, setIsAutoPlayActive] = useState(true);
-	const [hoveredSlotIndex, setHoveredSlotIndex] = useState<number | null>(null);
+	const [hoveredSlotIndex, setHoveredSlotIndex] = useState<number | null>(
+		null,
+	);
 
 	useEffect(() => {
 		if (!isAutoPlayActive) return;
@@ -115,13 +117,13 @@ export default function FeaturesCarousel() {
 				>
 					{/* Active Glyph Drawer */}
 					<div className="shrink-0 overflow-hidden">
-						<div>
+						<div className="w-24 h-24 lg:w-48 lg:h-48">
 							<Image
 								src={`/glyph/${activeItem.glyph}.png`}
-								width={256}
-								height={256}
+								width={192}
+								height={192}
 								alt={`${activeItem.title} glyph`}
-								className="w-24 lg:w-auto object-contain"
+								className="w-24 lg:w-full object-contain"
 								priority
 							/>
 						</div>
