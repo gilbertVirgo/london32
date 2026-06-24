@@ -7,7 +7,7 @@ const HomeCentralHub = () => {
 	return (
 		<>
 			<VideoHeader
-				videoSrc="/video/central-hub.mov"
+				videoSrc="/video/central-hub.mp4"
 				subtext="London 32 is"
 				text="a central hub"
 				id="central-hub"

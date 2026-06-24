@@ -113,7 +113,7 @@ export default function FeaturesCarousel() {
 				{/* Left Side: Active Feature (Glyph + Text) */}
 				<div
 					key={activeItem.glyph}
-					className="flex flex-row items-center gap-4 lg:gap-8 max-w-2xl w-full"
+					className="flex flex-row items-center gap-4 lg:gap-8 max-w-xl w-full"
 				>
 					{/* Active Glyph Drawer */}
 					<div className="shrink-0 overflow-hidden">
@@ -159,11 +159,11 @@ export default function FeaturesCarousel() {
 				</div>
 
 				{/* Right Side: Grid of remaining 6 features */}
-				<div className="grid grid-cols-3 gap-4 lg:gap-6 ">
+				<div className="grid grid-cols-3 md:w-full md:flex md:flex-row lg:w-auto lg:grid lg:grid-cols-3 gap-4 ">
 					{gridItems.map((item, index) => (
 						<div
 							key={item.glyph}
-							className="cursor-pointer select-none opacity-66 hover:opacity-100 transition-all duration-300 hover:scale-105 active:scale-95 transform"
+							className="md:flex-1 cursor-pointer select-none opacity-66 hover:opacity-100 transition-all duration-300 hover:scale-105 active:scale-95 transform"
 							onMouseEnter={() => handleSwap(index)}
 							onMouseLeave={() => handleMouseLeave(index)}
 							onClick={() => handleSwap(index)}
@@ -174,7 +174,7 @@ export default function FeaturesCarousel() {
 								width={128}
 								height={128}
 								alt={`${item.title} glyph`}
-								className="object-contain"
+								className="object-contain md:w-full lg:w-auto"
 							/>
 						</div>
 					))}

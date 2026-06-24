@@ -25,7 +25,8 @@ const Navigation = () => {
 				const paddingTop = parseFloat(navStyle.paddingTop) || 0;
 				const paddingBottom = parseFloat(navStyle.paddingBottom) || 0;
 				const borderTop = parseFloat(navStyle.borderTopWidth) || 0;
-				const borderBottom = parseFloat(navStyle.borderBottomWidth) || 0;
+				const borderBottom =
+					parseFloat(navStyle.borderBottomWidth) || 0;
 
 				const closedHeight =
 					headerHeight +
@@ -152,7 +153,7 @@ const Navigation = () => {
 									setIsOpen(false);
 									handleClick(e, href);
 								}}
-								className="font-body text-xl text-brand-platinum hover:text-brand-yellow transition-colors text-center w-full"
+								className="font-body text-base text-brand-platinum hover:text-brand-yellow transition-colors text-center w-full"
 								key={`mobile-nav-link-${index}`}
 							>
 								{title}

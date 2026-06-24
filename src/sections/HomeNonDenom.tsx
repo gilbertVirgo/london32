@@ -17,7 +17,7 @@ const HomeNonDenom = () => {
 	return (
 		<>
 			<VideoHeader
-				videoSrc="/video/non-denom.mov"
+				videoSrc="/video/non-denom.mp4"
 				subtext="London 32 is"
 				text="non-<wbr/>denominational and independent"
 				id="vision"
@@ -45,7 +45,7 @@ const HomeNonDenom = () => {
 						</span>
 						.
 					</p>
-					<div className="flex flex-row gap-4 lg:gap-8">
+					<div className="flex flex-row gap-4 w-full md:w-auto lg:gap-8">
 						{["cross", "church", "target"].map((glyph, index) => (
 							<Image
 								alt={`${glyph} glyph`}
@@ -53,7 +53,7 @@ const HomeNonDenom = () => {
 								height={128}
 								key={`non-denom-glyph-${index}`}
 								src={`/glyph/${glyph}.png`}
-								className={`transition-opacity duration-300 flex-1 min-w-0 aspect-square ${activeIndex === index ? "opacity-100" : "opacity-66"}`}
+								className={`transition-opacity duration-300 flex-1 max-w-[128px] min-w-0 aspect-square ${activeIndex === index ? "opacity-100" : "opacity-66"}`}
 							/>
 						))}
 					</div>

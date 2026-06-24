@@ -142,7 +142,7 @@ const HomeHero = () => {
 		<>
 			<div className={`wrapper py-12 md:py-32  md:min-h-auto relative`}>
 				<video
-					src="/video/reel.mov"
+					src="/video/reel.mp4"
 					poster="/video/reel.jpg"
 					playsInline
 					loop

@@ -87,7 +87,8 @@ const VideoHeader = ({ videoSrc, subtext, text, id }: VideoHeaderProps) => {
 		};
 	}, [text]);
 
-	const segments: { text: string; hasSpace: boolean; delayIndex: number }[] = [];
+	const segments: { text: string; hasSpace: boolean; delayIndex: number }[] =
+		[];
 	let delayIndex = 0;
 	text.split(" ").forEach((word) => {
 		if (word.includes("<wbr/>")) {
@@ -120,7 +121,7 @@ const VideoHeader = ({ videoSrc, subtext, text, id }: VideoHeaderProps) => {
 				loop
 				playsInline
 				src={videoSrc}
-				poster={videoSrc.replace(".mov", ".jpg")}
+				poster={videoSrc.replace(".mp4", ".jpg")}
 			/>
 			<div
 				ref={containerRef}

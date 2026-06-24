@@ -29,7 +29,7 @@ const Button = ({ children, href, icon, size, onClick }: ButtonProps) => {
 		<a
 			href={href}
 			onClick={handleClick}
-			className={`group relative overflow-hidden border border-brand-yellow border-width-1 font-sans w-full justify-between lg:w-max flex flex-row items-center gap-4 text-brand-platinum hover:text-brand-charcoal transition-colors duration-500 ${sizeSelectors}`}
+			className={`group relative overflow-hidden border border-brand-yellow border-width-1 font-sans w-full justify-between md:w-max flex flex-row items-center gap-4 text-brand-platinum hover:text-brand-charcoal transition-colors duration-500 ${sizeSelectors}`}
 		>
 			<span
 				aria-hidden

@@ -9,7 +9,7 @@ const HomeInDev = () => {
 	return (
 		<>
 			<VideoHeader
-				videoSrc="/video/in-dev.mov"
+				videoSrc="/video/in-dev.mp4"
 				subtext="London 32 is"
 				text="in development"
 				id="stay-updated"

@@ -31,7 +31,7 @@ const HomeGodsWord = () => {
 	return (
 		<>
 			<VideoHeader
-				videoSrc="/video/gods-word.mov"
+				videoSrc="/video/gods-word.mp4"
 				subtext="London 32 is"
 				text="shaped by the authority of God’s word"
 				id="core-convictions"
@@ -86,7 +86,9 @@ const HomeGodsWord = () => {
 										<h3 className="text-2xl lg:text-4xl">
 											{title}
 										</h3>
-										<p>{body}</p>
+										<p className="text-sm md:text-base">
+											{body}
+										</p>
 									</div>
 								</div>
 							</div>
