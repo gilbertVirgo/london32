@@ -146,7 +146,7 @@ const HomeHero = () => {
 							people connect, strengthen, and serve.
 						</p>
 					</div>
-					<Button href="#central-hub" icon={faArrowRight}>
+					<Button href="#vision" icon={faArrowRight}>
 						Find out more
 					</Button>
 				</div>
@@ -186,7 +186,7 @@ const HomeHero = () => {
 					}
 				`}</style>
 			</div>
-			<div className="container py-24 gap-16 items-center" id="about">
+			<div className="container py-24 gap-16 items-center" id="vision">
 				<p className="text-center text-balance max-w-md">
 					London has a vibrant and diverse Christian community
 					spanning all 32 boroughs. But connection across such a large

@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "@/components/Button";
 import FeaturesGrid from "./FeaturesGrid";
 import VideoHeader from "@/components/VideoHeader";
@@ -13,15 +15,22 @@ const HomeInDev = () => {
 				id="stay-updated"
 			/>
 			<div className="wrapper gap-18 relative pt-16 pb-48 ">
-				<div className="container gap-12" id="in-dev">
+				<div className="container gap-8" id="in-dev">
 					<p className="max-w-md text-balance">
 						Features will include:
 					</p>
 					<FeaturesGrid />
 				</div>
 				<div className="container">
-					<Button href="" icon={faEnvelope}>
-						Stay updated
+					<Button
+						href=""
+						icon={faEnvelope}
+						onClick={(e) => {
+							e.preventDefault();
+							window.dispatchEvent(new CustomEvent("open-mailing-list"));
+						}}
+					>
+						Stay Updated
 					</Button>
 				</div>
 			</div>

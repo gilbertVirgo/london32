@@ -1,7 +1,7 @@
 import { MouseEvent } from "react";
 
 /**
- * Smoothly scrolls to a target element identified by a hash URL (e.g. "#about"),
+ * Smoothly scrolls to a target element identified by a hash URL (e.g. "#vision"),
  * subtracting the dynamic height of the sticky navigation bar.
  *
  * @param e - The mouse click event.
@@ -17,7 +17,9 @@ export const handleSmoothScroll = (
 		const element = document.getElementById(targetId);
 		if (element) {
 			const navElement = document.querySelector("nav");
-			const navHeight = navElement ? navElement.getBoundingClientRect().height : 0;
+			const navHeight = navElement
+				? navElement.getBoundingClientRect().height
+				: 0;
 			const elementPosition = element.getBoundingClientRect().top;
 			const offsetPosition = elementPosition + window.scrollY - navHeight;
 

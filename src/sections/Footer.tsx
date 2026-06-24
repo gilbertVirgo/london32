@@ -10,8 +10,8 @@ const Footer = () => {
 				<div className="flex flex-row gap-4">
 					{[
 						{
-							title: "About",
-							href: "#about",
+							title: "Vision",
+							href: "#vision",
 						},
 						{
 							title: "Core Convictions",
@@ -24,7 +24,14 @@ const Footer = () => {
 					].map(({ title, href }, index) => (
 						<Link
 							href={href}
-							onClick={(e) => handleSmoothScroll(e, href)}
+							onClick={(e) => {
+								if (href === "#stay-updated") {
+									e.preventDefault();
+									window.dispatchEvent(new CustomEvent("open-mailing-list"));
+								} else {
+									handleSmoothScroll(e, href);
+								}
+							}}
 							className="font-body"
 							key={`footer-link-${index}`}
 						>

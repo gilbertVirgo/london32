@@ -13,7 +13,7 @@ const HomeNonDenom = () => {
 				videoSrc="/video/non-denom.mov"
 				subtext="London 32 is"
 				text="non-denominational and independent"
-				id="about"
+				id="vision"
 			/>
 			<div className="wrapper gap-32 relative pt-16 pb-48 ">
 				<div className="container flex-row! justify-between">

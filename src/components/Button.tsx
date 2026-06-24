@@ -11,11 +11,16 @@ interface ButtonProps {
 	href: string | undefined;
 	icon?: IconProp;
 	size?: "sm" | "md";
+	onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-const Button = ({ children, href, icon, size }: ButtonProps) => {
+const Button = ({ children, href, icon, size, onClick }: ButtonProps) => {
 	const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-		handleSmoothScroll(e, href);
+		if (onClick) {
+			onClick(e);
+		} else {
+			handleSmoothScroll(e, href);
+		}
 	};
 
 	const sizeSelectors = { sm: "py-3 px-4", md: "py-4 px-6" }[size || "md"];

@@ -5,6 +5,7 @@ import HomeInDev from "@/sections/HomeInDev";
 import HomeHero from "@/sections/HomeHero";
 import Navigation from "@/sections/Navigation";
 import Footer from "@/sections/Footer";
+import MailingListModal from "@/sections/MailingListModal";
 
 // Features are managed in FeaturesCarousel component
 
@@ -13,11 +14,12 @@ export default function Home() {
 		<main className="flex flex-col bg-brand-charcoal">
 			<Navigation />
 			<HomeHero />
-			<HomeCentralHub />
+			{/*<HomeCentralHub />
 			<HomeNonDenom />
 			<HomeGodsWord />
 			<HomeInDev />
 			<Footer />
+			<MailingListModal />*/}
 		</main>
 	);
 }
