@@ -45,7 +45,7 @@ const HomeNonDenom = () => {
 						</span>
 						.
 					</p>
-					<div className="flex flex-row gap-4 w-full md:w-auto lg:gap-8">
+					<div className="flex flex-row gap-4 w-full md:w-auto ">
 						{["cross", "church", "target"].map((glyph, index) => (
 							<Image
 								alt={`${glyph} glyph`}

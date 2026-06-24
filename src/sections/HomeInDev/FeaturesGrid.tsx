@@ -163,7 +163,7 @@ export default function FeaturesCarousel() {
 					{gridItems.map((item, index) => (
 						<div
 							key={item.glyph}
-							className="md:flex-1 cursor-pointer select-none opacity-66 hover:opacity-100 transition-all duration-300 hover:scale-105 active:scale-95 transform"
+							className="md:flex-1 cursor-pointer select-none opacity-66 hover:opacity-100 transition-all duration-300 active:scale-95 transform"
 							onMouseEnter={() => handleSwap(index)}
 							onMouseLeave={() => handleMouseLeave(index)}
 							onClick={() => handleSwap(index)}
