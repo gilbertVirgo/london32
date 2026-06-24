@@ -14,14 +14,29 @@ import { handleSmoothScroll } from "@/utils/scroll";
 const Navigation = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const navRef = useRef<HTMLElement | null>(null);
+	const headerRowRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
 		const updateHeight = () => {
-			if (navRef.current) {
-				const height = navRef.current.getBoundingClientRect().height;
+			if (navRef.current && headerRowRef.current) {
+				const headerHeight =
+					headerRowRef.current.getBoundingClientRect().height;
+				const navStyle = window.getComputedStyle(navRef.current);
+				const paddingTop = parseFloat(navStyle.paddingTop) || 0;
+				const paddingBottom = parseFloat(navStyle.paddingBottom) || 0;
+				const borderTop = parseFloat(navStyle.borderTopWidth) || 0;
+				const borderBottom = parseFloat(navStyle.borderBottomWidth) || 0;
+
+				const closedHeight =
+					headerHeight +
+					paddingTop +
+					paddingBottom +
+					borderTop +
+					borderBottom;
+
 				document.documentElement.style.setProperty(
 					"--nav-height",
-					`${height}px`,
+					`${closedHeight}px`,
 				);
 			}
 		};
@@ -31,6 +46,9 @@ const Navigation = () => {
 		const observer = new ResizeObserver(updateHeight);
 		if (navRef.current) {
 			observer.observe(navRef.current);
+		}
+		if (headerRowRef.current) {
+			observer.observe(headerRowRef.current);
 		}
 
 		window.addEventListener("resize", updateHeight);
@@ -54,7 +72,10 @@ const Navigation = () => {
 			className="wrapper py-4 sticky top-0 left-0 w-full z-100 bg-brand-charcoal/15 backdrop-blur-lg border-b border-brand-platinum/25"
 		>
 			<div className="container flex-col! items-stretch gap-4">
-				<div className="flex flex-row justify-between items-center w-full">
+				<div
+					ref={headerRowRef}
+					className="flex flex-row justify-between items-center w-full"
+				>
 					<Image
 						src="/logo.svg"
 						width={64 * 1.0546875}
