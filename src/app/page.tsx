@@ -126,35 +126,25 @@ export default function Home() {
 
 		return (
 			<div className="fixed inset-0 z-[5000] flex flex-col items-center justify-center bg-brand-charcoal text-brand-platinum">
-				<div className="flex flex-row items-center font-title text-8xl md:text-9xl tracking-tight select-none tabular-nums">
+				<div className="flex flex-row items-center font-title text-5xl md:text-7xl tracking-tight select-none tabular-nums">
 					{digits.map((digit, index) => (
 						<span
 							key={`${index}-${digit}`}
-							className="inline-block overflow-hidden relative h-[1.2em] w-[0.65em] text-center"
+							className="inline-block"
 						>
-							<span className="inline-block absolute left-0 right-0 loader-digit-slide-up">
-								{digit}
-							</span>
+							{digit}
 						</span>
 					))}
 					<span className="inline-block font-sans text-brand-yellow font-light ml-2">
 						%
 					</span>
 				</div>
-				<style jsx global>{`
-					@keyframes loaderDigitSlideUp {
-						from {
-							transform: translateY(105%);
-						}
-						to {
-							transform: translateY(0);
-						}
-					}
-					.loader-digit-slide-up {
-						animation: loaderDigitSlideUp 0.4s
-							cubic-bezier(0.16, 1, 0.3, 1) forwards;
-					}
-				`}</style>
+				<div className="w-48 h-1 bg-brand-platinum/25 mt-4">
+					<div
+						className="h-full bg-brand-yellow transition-all duration-100 ease-out"
+						style={{ width: `${progress}%` }}
+					/>
+				</div>
 			</div>
 		);
 	}
