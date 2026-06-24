@@ -55,6 +55,7 @@ export default function FeaturesCarousel() {
 		INITIAL_FEATURES.slice(1),
 	);
 	const [isAutoPlayActive, setIsAutoPlayActive] = useState(true);
+	const [hoveredSlotIndex, setHoveredSlotIndex] = useState<number | null>(null);
 
 	useEffect(() => {
 		if (!isAutoPlayActive) return;
@@ -79,8 +80,13 @@ export default function FeaturesCarousel() {
 	}, [activeItem, gridItems, isAutoPlayActive]);
 
 	const handleSwap = (clickedIndex: number, isAuto = false) => {
+		if (clickedIndex === hoveredSlotIndex && !isAuto) {
+			return;
+		}
+
 		if (!isAuto) {
 			setIsAutoPlayActive(false);
+			setHoveredSlotIndex(clickedIndex);
 		}
 
 		const clickedItem = gridItems[clickedIndex];
@@ -93,6 +99,10 @@ export default function FeaturesCarousel() {
 			nextGrid[clickedIndex] = currentActive;
 			return nextGrid;
 		});
+	};
+
+	const handleMouseLeave = (index: number) => {
+		setHoveredSlotIndex((prev) => (prev === index ? null : prev));
 	};
 
 	return (
@@ -153,6 +163,7 @@ export default function FeaturesCarousel() {
 							key={item.glyph}
 							className="cursor-pointer select-none opacity-66 hover:opacity-100 transition-all duration-300 hover:scale-105 active:scale-95 transform"
 							onMouseEnter={() => handleSwap(index)}
+							onMouseLeave={() => handleMouseLeave(index)}
 							onClick={() => handleSwap(index)}
 							title={`Hover to view ${item.title}`}
 						>
