@@ -10,7 +10,7 @@ const HomeNonDenom = () => {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setActiveIndex((prev) => (prev + 1) % 3);
-		}, 1250);
+		}, 2000);
 		return () => clearInterval(interval);
 	}, []);
 
