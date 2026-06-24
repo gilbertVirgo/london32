@@ -18,12 +18,34 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "London 32",
+  "url": "https://london32.org",
+  "logo": "https://london32.org/logo.svg",
+  "description": "A Christian evangelical network dedicated to signposting, strengthening, and serving local churches across all 32 boroughs of London.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "London",
+    "addressCountry": "GB",
+  },
+};
+
 export const metadata: Metadata = {
-  title: "London 32",
-  description: "Signposting, strengthening and serving London’s churches.",
+  title: {
+    default: "London 32 | Connecting & Serving London Churches",
+    template: "%s | London 32",
+  },
+  description: "London 32 is a Christian evangelical network serving churches across all 32 London boroughs. Discover our church directory, resources, and connect with pastors.",
   metadataBase: new URL("https://london32.org"),
+  alternates: {
+    canonical: "/",
+  },
+  manifest: "/manifest.webmanifest",
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "any" },
       { url: "/seo/favicon.svg", type: "image/svg+xml" },
     ],
     apple: [
@@ -38,8 +60,8 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "London 32",
-    description: "Signposting, strengthening and serving London’s churches.",
+    title: "London 32 | Connecting & Serving London Churches",
+    description: "London 32 is a Christian evangelical network serving churches across all 32 London boroughs. Discover our church directory, resources, and connect with pastors.",
     url: "/",
     siteName: "London 32",
     images: [
@@ -55,8 +77,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "London 32",
-    description: "Signposting, strengthening and serving London’s churches.",
+    title: "London 32 | Connecting & Serving London Churches",
+    description: "London 32 is a Christian evangelical network serving churches across all 32 London boroughs. Discover our church directory, resources, and connect with pastors.",
     images: ["/seo/x-image.png"],
   },
 };
@@ -73,6 +95,10 @@ export default function RootLayout({
     >
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/hes8dxr.css" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-[#080708] text-white font-sans">
         {children}
