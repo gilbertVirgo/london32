@@ -5,11 +5,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const baseUrl = "https://london32.org";
 
 	// Core static routes
-	const routes = [
+	const routes: MetadataRoute.Sitemap = [
 		{
 			url: baseUrl,
 			lastModified: new Date(),
-			changeFrequency: "daily" as const,
+			changeFrequency: "daily",
 			priority: 1.0,
 		},
 	];
@@ -24,7 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 				routes.push({
 					url: `${baseUrl}/${page.uid}`,
 					lastModified: new Date(page.last_publication_date),
-					changeFrequency: "weekly" as const,
+					changeFrequency: "weekly",
 					priority: 0.8,
 				});
 			}
