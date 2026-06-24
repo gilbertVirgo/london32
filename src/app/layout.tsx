@@ -19,8 +19,46 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js + Prismic Canvas",
-  description: "A blank canvas for Next.js + Prismic CMS styled with TailwindCSS",
+  title: "London 32",
+  description: "Signposting, strengthening and serving London’s churches.",
+  metadataBase: new URL("https://london32.org"),
+  icons: {
+    icon: [
+      { url: "/seo/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/seo/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      {
+        rel: "mask-icon",
+        url: "/seo/safari-pinned-tab.svg",
+        color: "#080708",
+      },
+    ],
+  },
+  openGraph: {
+    title: "London 32",
+    description: "Signposting, strengthening and serving London’s churches.",
+    url: "/",
+    siteName: "London 32",
+    images: [
+      {
+        url: "/seo/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "London 32 - Signposting, strengthening and serving London’s churches.",
+      },
+    ],
+    locale: "en_GB",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "London 32",
+    description: "Signposting, strengthening and serving London’s churches.",
+    images: ["/seo/x-image.png"],
+  },
 };
 
 export default function RootLayout({
