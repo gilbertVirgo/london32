@@ -29,13 +29,13 @@ const Button = ({ children, href, icon, size, onClick }: ButtonProps) => {
 		<a
 			href={href}
 			onClick={handleClick}
-			className={`group relative overflow-hidden border border-brand-yellow border-width-1 font-sans w-max flex flex-row items-center gap-4 text-brand-platinum hover:text-brand-charcoal transition-colors duration-500 ${sizeSelectors}`}
+			className={`group relative overflow-hidden border border-brand-yellow border-width-1 font-sans w-full justify-between lg:w-max flex flex-row items-center gap-4 text-brand-platinum hover:text-brand-charcoal transition-colors duration-500 ${sizeSelectors}`}
 		>
 			<span
 				aria-hidden
-				className="absolute inset-0 bg-brand-yellow translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+				className="text-balance absolute inset-0 bg-brand-yellow translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
 			/>
-			<span className="relative z-10">{children}</span>
+			<span className="text-balance relative z-10">{children}</span>
 			{icon && (
 				<FontAwesomeIcon
 					icon={icon}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface FeatureItem {
@@ -54,8 +54,35 @@ export default function FeaturesCarousel() {
 	const [gridItems, setGridItems] = useState<FeatureItem[]>(
 		INITIAL_FEATURES.slice(1),
 	);
+	const [isAutoPlayActive, setIsAutoPlayActive] = useState(true);
 
-	const handleSwap = (clickedIndex: number) => {
+	useEffect(() => {
+		if (!isAutoPlayActive) return;
+
+		const interval = setInterval(() => {
+			const currentIdx = INITIAL_FEATURES.findIndex(
+				(item) => item.glyph === activeItem.glyph,
+			);
+			const nextIdx = (currentIdx + 1) % INITIAL_FEATURES.length;
+			const nextFeature = INITIAL_FEATURES[nextIdx];
+
+			const gridIdx = gridItems.findIndex(
+				(item) => item.glyph === nextFeature.glyph,
+			);
+
+			if (gridIdx !== -1) {
+				handleSwap(gridIdx, true);
+			}
+		}, 3000);
+
+		return () => clearInterval(interval);
+	}, [activeItem, gridItems, isAutoPlayActive]);
+
+	const handleSwap = (clickedIndex: number, isAuto = false) => {
+		if (!isAuto) {
+			setIsAutoPlayActive(false);
+		}
+
 		const clickedItem = gridItems[clickedIndex];
 		const currentActive = activeItem;
 
@@ -70,11 +97,11 @@ export default function FeaturesCarousel() {
 
 	return (
 		<>
-			<div className="flex flex-row justify-between items-start gap-16 w-full">
+			<div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-16 w-full">
 				{/* Left Side: Active Feature (Glyph + Text) */}
 				<div
 					key={activeItem.glyph}
-					className="flex flex-row items-center gap-8 max-w-2xl w-full"
+					className="flex flex-row items-center gap-4 lg:gap-8 max-w-2xl w-full"
 				>
 					{/* Active Glyph Drawer */}
 					<div className="shrink-0 overflow-hidden">
@@ -84,16 +111,16 @@ export default function FeaturesCarousel() {
 								width={256}
 								height={256}
 								alt={`${activeItem.title} glyph`}
-								className="object-contain"
+								className="w-24 lg:w-auto object-contain"
 								priority
 							/>
 						</div>
 					</div>
 
 					{/* Active Text (Mimics #gods-word--items typography) */}
-					<div className="flex flex-col gap-2">
+					<div className="flex flex-col gap-1 lg:gap-2">
 						{/* Title Word-by-Word Drawers */}
-						<h3 className="text-4xl! leading-9 flex flex-wrap max-w-sm text-balance">
+						<h3 className="text-xl lg:text-4xl leading-5 lg:leading-9 flex flex-wrap max-w-sm text-balance">
 							{activeItem.title.split(" ").map((word, i) => (
 								<span
 									key={i}
@@ -113,16 +140,14 @@ export default function FeaturesCarousel() {
 						</h3>
 
 						{/* Body Drawer */}
-						<div className="overflow-hidden pb-2">
-							<div>
-								<p>{activeItem.body}</p>
-							</div>
-						</div>
+						<p className="text-sm lg:text-base">
+							{activeItem.body}
+						</p>
 					</div>
 				</div>
 
 				{/* Right Side: Grid of remaining 6 features */}
-				<div className="grid grid-cols-3 gap-6 ">
+				<div className="grid grid-cols-3 gap-4 lg:gap-6 ">
 					{gridItems.map((item, index) => (
 						<div
 							key={item.glyph}

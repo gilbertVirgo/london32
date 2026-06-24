@@ -25,10 +25,12 @@ export default function ConnectAnimation() {
 		// Clear canvas
 		ctx.clearRect(0, 0, w, h);
 
-		// Diameter of each circle is h (full-height)
-		// Radius is h / 2
-		const diameter = h;
-		const radius = h / 2;
+		// Diameter of each circle is w / 24
+		// Radius is half of the diameter
+		// Centered vertically using canvas height h
+		const diameter = w / 24;
+		const radius = diameter / 2;
+		const centerY = h / 2;
 
 		// Draw all 24 circles with individual ease-out progress
 		for (let i = 0; i < 24; i++) {
@@ -36,7 +38,7 @@ export default function ConnectAnimation() {
 			if (p <= 0.001) continue; // Skip drawing if too small
 
 			const x = i * diameter + radius;
-			const y = radius;
+			const y = centerY;
 
 			ctx.save();
 			ctx.globalAlpha = p; // Simultaneously fade in

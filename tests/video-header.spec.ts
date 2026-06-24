@@ -11,7 +11,7 @@ test("should scale down text so that no word overflows the container", async ({ 
 	await expect(container).toBeVisible();
 
 	// Find the outer spans (children of mainTextRef)
-	const outerSpans = page.locator(".text-9xl > span, .text-8xl > span, .text-7xl > span");
+	const outerSpans = page.locator(".text-9xl > span, .text-8xl > span, .text-7xl > span, .text-6xl > span");
 	const count = await outerSpans.count();
 	expect(count).toBeGreaterThan(0);
 

@@ -38,13 +38,16 @@ const HomeGodsWord = () => {
 			/>
 			<div
 				ref={sectionRef}
-				className={`wrapper gap-18 relative pt-16 pb-48 ${isVisible ? "is-visible" : ""}`}
+				className={`wrapper gap-12 lg:gap-18 relative pt-8 lg:pt-16 pb-16 lg:pb-32 ${isVisible ? "is-visible" : ""}`}
 			>
-				<div className="container gap-12">
+				<div className="container gap-6 lg:gap-12">
 					<p className="max-w-md text-balance">
 						We hold to essential biblical truths:
 					</p>
-					<div className="flex flex-row gap-12" id="gods-word--items">
+					<div
+						className="w-[calc(100%+2rem)] lg:w-full relative -left-4 lg:left-0 flex flex-row gap-0 lg:gap-12 overflow-x-auto snap-x snap-mandatory scroll-smooth lg:overflow-x-visible lg:snap-none pb-4 lg:pb-0 scrollbar-none"
+						id="gods-word--items"
+					>
 						{[
 							{
 								glyph: "cross",
@@ -64,7 +67,7 @@ const HomeGodsWord = () => {
 						].map(({ glyph, title, body }, index) => (
 							<div
 								key={`gods-word-detail-wrapper-${index}`}
-								className="flex flex-col gap-6 flex-1"
+								className="flex flex-col gap-6 w-[80vw] sm:w-[60vw] md:w-[40vw] px-4 lg:px-0 shrink-0 snap-start lg:w-auto lg:shrink lg:flex-1"
 							>
 								<Image
 									src={`/glyph/${glyph}.png`}
@@ -80,7 +83,9 @@ const HomeGodsWord = () => {
 											animationFillMode: "both",
 										}}
 									>
-										<h3 className="text-4xl!">{title}</h3>
+										<h3 className="text-2xl lg:text-4xl">
+											{title}
+										</h3>
 										<p>{body}</p>
 									</div>
 								</div>
@@ -89,7 +94,7 @@ const HomeGodsWord = () => {
 					</div>
 				</div>
 				<div className="container">
-					<Button href="" icon={faBible}>
+					<Button href="" size="sm" icon={faBible}>
 						Read our Statement of Faith
 					</Button>
 				</div>

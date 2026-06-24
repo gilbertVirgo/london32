@@ -12,7 +12,7 @@ const HomeCentralHub = () => {
 				text="a central hub"
 				id="central-hub"
 			/>
-			<div className="wrapper gap-16 relative pt-16 pb-48">
+			<div className="wrapper gap-8 lg:gap-16 relative pt-8 lg:pt-16 pb-16 lg:pb-32">
 				<div className="container">
 					<p className="max-w-md text-balance">
 						We help{" "}
@@ -22,16 +22,20 @@ const HomeCentralHub = () => {
 						to
 					</p>
 				</div>
-				<div className="gap-8 wrapper">
-					<h3 className="text-6xl container">connect,</h3>
+				<div className="gap-4 lg:gap-8 wrapper">
+					<h3 className="text-3xl lg:text-6xl container">connect,</h3>
 					<ConnectAnimation />
 				</div>
-				<div className="gap-8 wrapper">
-					<h3 className="text-6xl container">communicate,</h3>
+				<div className="gap-4 lg:gap-8 wrapper">
+					<h3 className="text-3xl lg:text-6xl container">
+						communicate,
+					</h3>
 					<CommunicateAnimation />
 				</div>
-				<div className="gap-8 wrapper">
-					<h3 className="text-6xl container">and collaborate.</h3>
+				<div className="gap-4 lg:gap-8 wrapper">
+					<h3 className="text-3xl lg:text-6xl container">
+						and collaborate.
+					</h3>
 					<CollaborateAnimation />
 				</div>
 			</div>

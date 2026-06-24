@@ -14,12 +14,12 @@ export default function Home() {
 		<main className="flex flex-col bg-brand-charcoal">
 			<Navigation />
 			<HomeHero />
-			{/*<HomeCentralHub />
+			<HomeCentralHub />
 			<HomeNonDenom />
 			<HomeGodsWord />
 			<HomeInDev />
 			<Footer />
-			<MailingListModal />*/}
+			<MailingListModal />
 		</main>
 	);
 }

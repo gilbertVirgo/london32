@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Button from "@/components/Button";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons/faEnvelope";
 import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
@@ -13,6 +13,33 @@ import { handleSmoothScroll } from "@/utils/scroll";
 
 const Navigation = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const navRef = useRef<HTMLElement | null>(null);
+
+	useEffect(() => {
+		const updateHeight = () => {
+			if (navRef.current) {
+				const height = navRef.current.getBoundingClientRect().height;
+				document.documentElement.style.setProperty(
+					"--nav-height",
+					`${height}px`,
+				);
+			}
+		};
+
+		updateHeight();
+
+		const observer = new ResizeObserver(updateHeight);
+		if (navRef.current) {
+			observer.observe(navRef.current);
+		}
+
+		window.addEventListener("resize", updateHeight);
+
+		return () => {
+			observer.disconnect();
+			window.removeEventListener("resize", updateHeight);
+		};
+	}, []);
 
 	const handleClick = (
 		e: React.MouseEvent<HTMLAnchorElement>,
@@ -22,13 +49,16 @@ const Navigation = () => {
 	};
 
 	return (
-		<nav className="wrapper py-4 sticky top-0 left-0 w-full z-100 bg-brand-charcoal/15 backdrop-blur-lg border-b border-brand-platinum/25">
+		<nav
+			ref={navRef}
+			className="wrapper py-4 sticky top-0 left-0 w-full z-100 bg-brand-charcoal/15 backdrop-blur-lg border-b border-brand-platinum/25"
+		>
 			<div className="container flex-col! items-stretch gap-4">
 				<div className="flex flex-row justify-between items-center w-full">
 					<Image
 						src="/logo.svg"
-						width={101.25}
-						height={96}
+						width={64 * 1.0546875}
+						height={64}
 						alt="London 32 Logo"
 					/>
 

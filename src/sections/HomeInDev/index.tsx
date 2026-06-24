@@ -14,8 +14,8 @@ const HomeInDev = () => {
 				text="in development"
 				id="stay-updated"
 			/>
-			<div className="wrapper gap-18 relative pt-16 pb-48 ">
-				<div className="container gap-8" id="in-dev">
+			<div className="wrapper gap-18 relative pt-8 lg:pt-16 pb-16 lg:pb-32 ">
+				<div className="container gap-6 lg:gap-8" id="in-dev">
 					<p className="max-w-md text-balance">
 						Features will include:
 					</p>
@@ -27,7 +27,9 @@ const HomeInDev = () => {
 						icon={faEnvelope}
 						onClick={(e) => {
 							e.preventDefault();
-							window.dispatchEvent(new CustomEvent("open-mailing-list"));
+							window.dispatchEvent(
+								new CustomEvent("open-mailing-list"),
+							);
 						}}
 					>
 						Stay Updated

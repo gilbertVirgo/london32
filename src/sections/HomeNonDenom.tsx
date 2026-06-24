@@ -12,11 +12,11 @@ const HomeNonDenom = () => {
 			<VideoHeader
 				videoSrc="/video/non-denom.mov"
 				subtext="London 32 is"
-				text="non-denominational and independent"
+				text="non-<wbr/>denominational and independent"
 				id="vision"
 			/>
-			<div className="wrapper gap-32 relative pt-16 pb-48 ">
-				<div className="container flex-row! justify-between">
+			<div className="wrapper gap-32 relative pt-8 lg:pt-16 pb-16 lg:pb-32 ">
+				<div className="container gap-6 lg:flex-row! lg:justify-between">
 					<p className="max-w-md text-balance">
 						We&rsquo;re supported by Christians who long for{" "}
 						<span
@@ -38,7 +38,7 @@ const HomeNonDenom = () => {
 						</span>
 						.
 					</p>
-					<div className="flex flex-row gap-8">
+					<div className="flex flex-row gap-4 lg:gap-8">
 						{["cross", "church", "target"].map((glyph, index) => (
 							<Image
 								alt={`${glyph} glyph`}
@@ -46,7 +46,7 @@ const HomeNonDenom = () => {
 								height={128}
 								key={`non-denom-glyph-${index}`}
 								src={`/glyph/${glyph}.png`}
-								className="cursor-pointer transition-transform duration-300 hover:scale-110"
+								className="cursor-pointer transition-transform duration-300 hover:scale-110 flex-1 min-w-0 aspect-square"
 								onMouseEnter={() => setHoveredIndex(index)}
 								onMouseLeave={() => setHoveredIndex(null)}
 							/>

@@ -6,8 +6,8 @@ import { handleSmoothScroll } from "@/utils/scroll";
 const Footer = () => {
 	return (
 		<footer className="wrapper border-t border-brand-platinum/25">
-			<div className="container items-center gap-2 py-6">
-				<div className="flex flex-row gap-4">
+			<div className="container items-center gap-4 md:gap-2 py-6">
+				<div className="flex flex-col md:flex-row gap-1 md:gap-4">
 					{[
 						{
 							title: "Vision",
@@ -27,12 +27,14 @@ const Footer = () => {
 							onClick={(e) => {
 								if (href === "#stay-updated") {
 									e.preventDefault();
-									window.dispatchEvent(new CustomEvent("open-mailing-list"));
+									window.dispatchEvent(
+										new CustomEvent("open-mailing-list"),
+									);
 								} else {
 									handleSmoothScroll(e, href);
 								}
 							}}
-							className="font-body"
+							className="font-body text-center"
 							key={`footer-link-${index}`}
 						>
 							{title}

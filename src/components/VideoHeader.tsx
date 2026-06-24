@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Fragment } from "react";
 
 interface VideoHeaderProps {
 	videoSrc: string;
@@ -87,7 +87,26 @@ const VideoHeader = ({ videoSrc, subtext, text, id }: VideoHeaderProps) => {
 		};
 	}, [text]);
 
-	const words = text.split(" ");
+	const segments: { text: string; hasSpace: boolean; delayIndex: number }[] = [];
+	let delayIndex = 0;
+	text.split(" ").forEach((word) => {
+		if (word.includes("<wbr/>")) {
+			const parts = word.split("<wbr/>");
+			parts.forEach((part, index) => {
+				segments.push({
+					text: part,
+					hasSpace: index === parts.length - 1,
+					delayIndex: delayIndex++,
+				});
+			});
+		} else {
+			segments.push({
+				text: word,
+				hasSpace: true,
+				delayIndex: delayIndex++,
+			});
+		}
+	});
 
 	return (
 		<div
@@ -104,11 +123,11 @@ const VideoHeader = ({ videoSrc, subtext, text, id }: VideoHeaderProps) => {
 			/>
 			<div
 				ref={containerRef}
-				className="container pt-48 pb-16 relative z-10 gap-6"
+				className="container pt-24 lg:pt-48 pb-8 lg:pb-16 relative z-10 gap-6"
 			>
 				<h2 ref={textRef}>
 					{/* Subtext with drawer clip animation */}
-					<span className="text-3xl block tracking-tight ">
+					<span className="text-xl lg:text-3xl block tracking-tight ">
 						<span className="inline-block">{subtext}</span>
 					</span>
 
@@ -116,23 +135,25 @@ const VideoHeader = ({ videoSrc, subtext, text, id }: VideoHeaderProps) => {
 					<span
 						ref={mainTextRef}
 						className={
-							"text-7xl leading-18 tracking-tight flex flex-wrap"
+							"text-5xl lg:text-7xl leading-10 lg:leading-18 tracking-tight flex flex-wrap"
 						}
 					>
-						{words.map((word, i) => (
+						{segments.map((seg, i) => (
 							<span
 								key={i}
-								className="inline-block overflow-y-hidden pb-[0.1em] pr-[0.22em] shrink-0"
+								className={`inline-block overflow-y-hidden pb-[0.1em] shrink-0 ${
+									seg.hasSpace ? "pr-[0.22em]" : ""
+								}`}
 							>
 								<span
 									className="inline-block vh-drawer-slide-up"
 									style={{
-										animationDelay: `${0.2 + i * 0.1}s`,
+										animationDelay: `${0.2 + seg.delayIndex * 0.1}s`,
 										animationFillMode: "both",
 									}}
 								>
-									{word}
-									{i === words.length - 1 && (
+									{seg.text}
+									{i === segments.length - 1 && (
 										<span className="text-brand-yellow font-serif">
 											.
 										</span>

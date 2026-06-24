@@ -13,23 +13,25 @@ const HomeHero = () => {
 	const svgRef = useRef<SVGSVGElement | null>(null);
 	const containerRef = useRef<HTMLDivElement | null>(null);
 	const mainTextRef = useRef<HTMLHeadingElement | null>(null);
+	const hiddenContainerRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-		const interval = setInterval(() => {
+		const currentPhrase = phrases[currentIndex];
+		const duration = currentPhrase === "London 32" ? 2500 : 1250;
+
+		const timer = setTimeout(() => {
 			setCurrentIndex((prev) => (prev + 1) % phrases.length);
-		}, 2000);
-		return () => clearInterval(interval);
-	}, []);
+		}, duration);
+
+		return () => clearTimeout(timer);
+	}, [currentIndex]);
 
 	useEffect(() => {
 		const measureAndScale = () => {
 			const container = containerRef.current;
 			const mainText = mainTextRef.current;
-			if (!container || !mainText) return;
-
-			// Reset font size and line height to measure true base layout dimensions
-			mainText.style.fontSize = "";
-			mainText.style.lineHeight = "";
+			const hiddenContainer = hiddenContainerRef.current;
+			if (!container || !mainText || !hiddenContainer) return;
 
 			const computedStyle = window.getComputedStyle(container);
 			const paddingLeft = parseFloat(computedStyle.paddingLeft) || 0;
@@ -37,31 +39,71 @@ const HomeHero = () => {
 			const availableWidth =
 				container.clientWidth - paddingLeft - paddingRight;
 
-			let maxWordWidth = 0;
-			const outerSpans = mainText.children;
-			for (let i = 0; i < outerSpans.length; i++) {
-				const child = outerSpans[i] as HTMLElement;
-				const innerSpan = child.firstElementChild as HTMLElement;
-				const wordWidth = innerSpan
-					? innerSpan.getBoundingClientRect().width
-					: child.getBoundingClientRect().width;
-				if (wordWidth > maxWordWidth) {
-					maxWordWidth = wordWidth;
+			// Position and size the hidden container to match the available content area exactly
+			hiddenContainer.style.width = `${availableWidth}px`;
+
+			const hiddenH1s = hiddenContainer.children;
+			let maxH1Height = 0;
+			let activeFontSize = "";
+			let activeLineHeight = "";
+
+			for (let phraseIdx = 0; phraseIdx < hiddenH1s.length; phraseIdx++) {
+				const hiddenH1 = hiddenH1s[phraseIdx] as HTMLElement;
+
+				// Reset font size and line height to measure true base layout dimensions
+				hiddenH1.style.fontSize = "";
+				hiddenH1.style.lineHeight = "";
+
+				let maxWordWidth = 0;
+				const outerSpans = hiddenH1.children;
+				for (let i = 0; i < outerSpans.length; i++) {
+					const child = outerSpans[i] as HTMLElement;
+					const innerSpan = child.firstElementChild as HTMLElement;
+					const wordWidth = innerSpan
+						? innerSpan.getBoundingClientRect().width
+						: child.getBoundingClientRect().width;
+					if (wordWidth > maxWordWidth) {
+						maxWordWidth = wordWidth;
+					}
+				}
+
+				if (maxWordWidth > availableWidth && availableWidth > 0) {
+					const scaleFactor = availableWidth / maxWordWidth;
+					const mainTextStyle = window.getComputedStyle(hiddenH1);
+					const defaultFontSize =
+						parseFloat(mainTextStyle.fontSize) || 128;
+
+					const newFontSize = `${defaultFontSize * scaleFactor}px`;
+					const newLineHeight = `${defaultFontSize * scaleFactor * 0.875}px`;
+
+					hiddenH1.style.fontSize = newFontSize;
+					hiddenH1.style.lineHeight = newLineHeight;
+
+					if (phraseIdx === currentIndex) {
+						activeFontSize = newFontSize;
+						activeLineHeight = newLineHeight;
+					}
+				} else {
+					hiddenH1.style.fontSize = "";
+					hiddenH1.style.lineHeight = "";
+					if (phraseIdx === currentIndex) {
+						activeFontSize = "";
+						activeLineHeight = "";
+					}
+				}
+
+				const height = hiddenH1.getBoundingClientRect().height;
+				if (height > maxH1Height) {
+					maxH1Height = height;
 				}
 			}
 
-			if (maxWordWidth > availableWidth && availableWidth > 0) {
-				const scaleFactor = availableWidth / maxWordWidth;
-				const mainTextStyle = window.getComputedStyle(mainText);
-				const defaultFontSize =
-					parseFloat(mainTextStyle.fontSize) || 128;
+			// Apply active phrase styling to the visible H1
+			mainText.style.fontSize = activeFontSize;
+			mainText.style.lineHeight = activeLineHeight;
 
-				mainText.style.fontSize = `${defaultFontSize * scaleFactor}px`;
-				mainText.style.lineHeight = `${defaultFontSize * scaleFactor * 0.875}px`;
-			} else {
-				mainText.style.fontSize = "";
-				mainText.style.lineHeight = "";
-			}
+			// Apply maximum height to avoid layout shift
+			mainText.style.height = `${maxH1Height}px`;
 		};
 
 		measureAndScale();
@@ -98,7 +140,9 @@ const HomeHero = () => {
 
 	return (
 		<>
-			<div className="wrapper py-32 relative">
+			<div
+				className={`wrapper py-12 lg:py-32 h-[calc(100vh-var(--nav-height,136px))] lg:h-auto relative`}
+			>
 				<video
 					src="/video/reel.mov"
 					playsInline
@@ -109,16 +153,16 @@ const HomeHero = () => {
 				/>
 				<div
 					ref={containerRef}
-					className="container relative z-10 gap-12"
+					className="container relative z-10 h-full lg:h-auto justify-between lg:justify-start lg:gap-12"
 				>
-					<div className="flex flex-col gap-4">
+					<div className="flex lg:flex-0 flex-col gap-4 relative">
 						<h1
 							ref={mainTextRef}
-							className="text-9xl leading-26 tracking-tight flex flex-wrap pb-2"
+							className="text-6xl lg:text-9xl leading-12 lg:leading-26 tracking-tight"
 						>
 							{/* Static persistent word */}
-							<span className="inline-block overflow-hidden mr-[0.25em] shrink-0">
-								<span className="inline-block hero-drawer-slide-up">
+							<span className="block overflow-hidden mr-[0.25em] h-min ">
+								<span className="inline-block hero-drawer-slide-up h-min">
 									Think
 								</span>
 							</span>
@@ -127,10 +171,10 @@ const HomeHero = () => {
 							{words.map((word, i) => (
 								<span
 									key={`${currentIndex}-${i}`}
-									className="inline-block overflow-hidden mr-[0.25em] shrink-0"
+									className="inline-block overflow-hidden mr-[0.25em] h-min"
 								>
 									<span
-										className="inline-block hero-drawer-slide-up"
+										className="inline-block hero-drawer-slide-up h-min"
 										style={{
 											animationDelay: `${i * 0.1}s`,
 											animationFillMode: "both",
@@ -141,6 +185,40 @@ const HomeHero = () => {
 								</span>
 							))}
 						</h1>
+
+						{/* Hidden helper elements for measuring maximum height */}
+						<div
+							ref={hiddenContainerRef}
+							className="absolute top-0 left-0 pointer-events-none invisible flex flex-col"
+							aria-hidden="true"
+						>
+							{phrases.map((phrase, phraseIdx) => (
+								<h1
+									key={`hidden-h1-${phraseIdx}`}
+									className="text-6xl lg:text-9xl leading-12 lg:leading-26 tracking-tight"
+								>
+									{/* Static persistent word */}
+									<span className="block overflow-hidden mr-[0.25em] h-min">
+										<span className="inline-block h-min">
+											Think
+										</span>
+									</span>
+
+									{/* Cycled words */}
+									{phrase.split(" ").map((word, wordIdx) => (
+										<span
+											key={`hidden-word-${phraseIdx}-${wordIdx}`}
+											className="inline-block overflow-hidden mr-[0.25em] h-min"
+										>
+											<span className="inline-block h-min">
+												{word}
+											</span>
+										</span>
+									))}
+								</h1>
+							))}
+						</div>
+
 						<p className="text-balance max-w-md">
 							A platform serving all 32 boroughs. Helping God’s
 							people connect, strengthen, and serve.
@@ -186,41 +264,46 @@ const HomeHero = () => {
 					}
 				`}</style>
 			</div>
-			<div className="container py-24 gap-16 items-center" id="vision">
-				<p className="text-center text-balance max-w-md">
-					London has a vibrant and diverse Christian community
-					spanning all 32 boroughs. But connection across such a large
-					city is not easy.
-				</p>
-				<svg
-					ref={svgRef}
-					width="1168"
-					height="193"
-					viewBox="0 0 1168 193"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-					className="w-full h-auto overflow-hidden"
+			<div className="wrapper">
+				<div
+					className="container py-12 lg:py-24 gap-8 lg:gap-16 items-center"
+					id="vision"
 				>
-					{bridgeGapPaths.map((wordPaths, wordIndex) => {
-						const delay = `${(bridgeGapPaths.length - 1 - wordIndex) * 0.15}s`;
-						return wordPaths.map((path, pathIndex) => (
-							<path
-								key={`${wordIndex}-${pathIndex}`}
-								d={path.d}
-								fill={path.fill}
-								className={`svg-letter-drawer ${svgVisible ? "svg-letter-drawer-animate" : ""}`}
-								style={{
-									animationDelay: delay,
-									animationFillMode: "both",
-								}}
-							/>
-						));
-					})}
-				</svg>
-				<p className="text-center text-balance max-w-md">
-					We exist to signpost, strengthen, and serve the Church
-					locally and across the whole city.
-				</p>
+					<p className="text-center text-balance max-w-md">
+						London has a vibrant and diverse Christian community
+						spanning all 32 boroughs. But connection across such a
+						large city is not easy.
+					</p>
+					<svg
+						ref={svgRef}
+						width="1168"
+						height="193"
+						viewBox="0 0 1168 193"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						className="w-full h-auto overflow-hidden"
+					>
+						{bridgeGapPaths.map((wordPaths, wordIndex) => {
+							const delay = `${(bridgeGapPaths.length - 1 - wordIndex) * 0.15}s`;
+							return wordPaths.map((path, pathIndex) => (
+								<path
+									key={`${wordIndex}-${pathIndex}`}
+									d={path.d}
+									fill={path.fill}
+									className={`svg-letter-drawer ${svgVisible ? "svg-letter-drawer-animate" : ""}`}
+									style={{
+										animationDelay: delay,
+										animationFillMode: "both",
+									}}
+								/>
+							));
+						})}
+					</svg>
+					<p className="text-center text-balance max-w-md">
+						We exist to signpost, strengthen, and serve the Church
+						locally and across the whole city.
+					</p>
+				</div>
 			</div>
 		</>
 	);
