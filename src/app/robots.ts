@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
 			allow: "/",
 			disallow: ["/api/", "/slice-simulator"],
 		},
-		sitemap: "https://london32.org/sitemap.xml",
+		sitemap: "https://london32.netlify.app/sitemap.xml",
 	};
 }

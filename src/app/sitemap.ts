@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { createClient } from "@/prismicio";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-	const baseUrl = "https://london32.org";
+	const baseUrl = "https://london32.netlify.app";
 
 	// Core static routes
 	const routes: MetadataRoute.Sitemap = [
