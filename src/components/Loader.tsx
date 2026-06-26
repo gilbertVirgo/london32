@@ -36,7 +36,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 
 		const handleComplete = () => {
 			setIsFadingOut(true);
-			setTimeout(onComplete, 125);
+			setTimeout(onComplete, 150);
 		};
 
 		// Bypass loader in automated test environments to prevent delays and test timeouts
@@ -143,7 +143,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 
 	return (
 		<div
-			className={`fixed inset-0 z-[5000] flex flex-col items-center justify-center bg-brand-charcoal text-brand-platinum ${isFadingOut ? "opacity-0" : "opacity-100"}`}
+			className={`fixed inset-0 z-[5000] flex flex-col items-center justify-center bg-brand-charcoal text-brand-platinum ${isFadingOut ? "opacity-0 pointer-events-none" : "opacity-100"}`}
 			style={{
 				transition: "opacity 125ms ease-out",
 			}}
