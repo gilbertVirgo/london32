@@ -107,11 +107,18 @@ export default function Loader({ onComplete }: LoaderProps) {
 
 		// Smoothly animate the progress state towards targetProgress
 		const timer = setInterval(() => {
+			if (targetProgress === 100) {
+				clearInterval(timer);
+				clearInterval(measureInterval);
+				onComplete();
+				return;
+			}
+
 			setProgress((prev) => {
 				if (prev >= 100) {
 					clearInterval(timer);
 					clearInterval(measureInterval);
-					setTimeout(onComplete, 500);
+					onComplete();
 					return 100;
 				}
 
