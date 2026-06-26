@@ -152,14 +152,6 @@ export default function Loader({ onComplete }: LoaderProps) {
 				transition: "opacity 125ms ease-out",
 			}}
 		>
-			<div className="h-16 flex items-center justify-center text-center max-w-md md:max-w-xl px-6">
-				<p
-					key={messageIndex}
-					className="font-body text-brand-platinum/80 text-lg md:text-base text-center select-none "
-				>
-					{currentMessage}
-				</p>
-			</div>
 			<div className="w-72 md:w-96 h-1.5 bg-brand-platinum/20 mt-6 rounded-full overflow-hidden">
 				<div
 					className="h-full bg-brand-yellow shimmer-bar rounded-full"
@@ -168,6 +160,14 @@ export default function Loader({ onComplete }: LoaderProps) {
 						transition: "width 125ms ease-out",
 					}}
 				/>
+			</div>
+			<div className="h-16 flex items-center justify-center text-center max-w-md md:max-w-xl px-6">
+				<p
+					key={messageIndex}
+					className="font-body text-brand-platinum/50 text-xs md:text-sm text-center select-none "
+				>
+					{currentMessage}
+				</p>
 			</div>
 
 			<style jsx global>{`
