@@ -63,17 +63,22 @@ export default function Loader({ onComplete }: LoaderProps) {
 
 			// We only want to measure and wait for above-the-fold (critical) assets
 			// to avoid blocking on lazy-loaded below-the-fold images and videos.
-			const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 800;
+			const viewportHeight =
+				typeof window !== "undefined" ? window.innerHeight : 800;
 
-			const videos = Array.from(document.querySelectorAll("video")).filter((v) => {
+			const videos = Array.from(
+				document.querySelectorAll("video"),
+			).filter((v) => {
 				const rect = v.getBoundingClientRect();
 				return rect.top < viewportHeight;
 			});
 
-			const images = Array.from(document.querySelectorAll("img")).filter((img) => {
-				const rect = img.getBoundingClientRect();
-				return rect.top < viewportHeight;
-			});
+			const images = Array.from(document.querySelectorAll("img")).filter(
+				(img) => {
+					const rect = img.getBoundingClientRect();
+					return rect.top < viewportHeight;
+				},
+			);
 
 			// If no critical elements are found yet, we assume minimum expected ones
 			const expectedVideos = Math.max(1, videos.length);
@@ -99,7 +104,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 			const calculatedPercent = Math.round(
 				(loadedItems / totalItems) * 100,
 			);
-			
+
 			// Target progress can only increase, and maxes out at 99% until fully loaded
 			const newTarget = Math.min(99, calculatedPercent);
 			if (newTarget > targetProgress) {
@@ -109,12 +114,11 @@ export default function Loader({ onComplete }: LoaderProps) {
 
 			// If everything is truly loaded, target is 100%
 			const allVideosLoaded =
-				videos.length > 0 &&
-				videos.every((v) => v.readyState >= 3);
+				videos.length > 0 && videos.every((v) => v.readyState >= 3);
 			const allImagesLoaded =
 				images.length > 0 &&
 				images.every((i) => i.complete && i.naturalWidth > 0);
-				
+
 			if (fontsLoaded && allVideosLoaded && allImagesLoaded) {
 				targetProgress = 100;
 				setDiscreteProgress(100);
@@ -151,14 +155,14 @@ export default function Loader({ onComplete }: LoaderProps) {
 			<div className="h-16 flex items-center justify-center text-center max-w-md md:max-w-xl px-6">
 				<p
 					key={messageIndex}
-					className="font-body text-brand-platinum/80 text-lg md:text-base text-center select-none slide-fade-in"
+					className="font-body text-brand-platinum/80 text-lg md:text-base text-center select-none "
 				>
 					{currentMessage}
 				</p>
 			</div>
 			<div className="w-72 md:w-96 h-1.5 bg-brand-platinum/20 mt-6 rounded-full overflow-hidden">
 				<div
-					className="h-full bg-brand-yellow pulse-glow rounded-full"
+					className="h-full bg-brand-yellow shimmer-bar rounded-full"
 					style={{
 						width: `${discreteProgress}%`,
 						transition: "width 125ms ease-out",
@@ -179,22 +183,30 @@ export default function Loader({ onComplete }: LoaderProps) {
 				}
 
 				.slide-fade-in {
-					animation: slideFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+					animation: slideFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1)
+						forwards;
 				}
 
-				@keyframes pulseGlow {
-					0%, 100% {
-						opacity: 0.85;
-						filter: drop-shadow(0 0 2px #fdca40);
+				@keyframes shimmer {
+					0% {
+						background-position: 200% 0;
 					}
-					50% {
-						opacity: 1;
-						filter: drop-shadow(0 0 10px #fdca40);
+					100% {
+						background-position: -200% 0;
 					}
 				}
 
-				.pulse-glow {
-					animation: pulseGlow 1.8s ease-in-out infinite;
+				.shimmer-bar {
+					background: linear-gradient(
+						90deg,
+						#fdca40 0%,
+						#ffe680 25%,
+						#fdca40 50%,
+						#ffe680 75%,
+						#fdca40 100%
+					);
+					background-size: 200% 100%;
+					animation: shimmer 1.5s linear infinite;
 				}
 			`}</style>
 		</div>
