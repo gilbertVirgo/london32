@@ -6,8 +6,15 @@ interface LoaderProps {
 	onComplete: () => void;
 }
 
+const MESSAGES = [
+	"Gathering churches from all 32 boroughs...",
+	"Building connections stronger than the London Underground...",
+	"Preparing to serve the Church across the capital...",
+];
+
 export default function Loader({ onComplete }: LoaderProps) {
 	const [discreteProgress, setDiscreteProgress] = useState(15);
+	const [messageIndex, setMessageIndex] = useState(0);
 
 	useEffect(() => {
 		let fontsLoaded = false;
@@ -116,39 +123,71 @@ export default function Loader({ onComplete }: LoaderProps) {
 			}
 		}, 100);
 
+		// Cycle through the three load messages every 3 seconds
+		const messageInterval = setInterval(() => {
+			setMessageIndex((prev) => (prev + 1) % MESSAGES.length);
+		}, 3000);
+
 		return () => {
 			clearTimeout(safetyTimeout);
 			clearInterval(measureInterval);
+			clearInterval(messageInterval);
 		};
 	}, [onComplete]);
 
-	const percentStr = String(Math.floor(discreteProgress));
-	const digits = percentStr.split("");
+	const currentMessage = MESSAGES[messageIndex];
 
 	return (
 		<div className="fixed inset-0 z-[5000] flex flex-col items-center justify-center bg-brand-charcoal text-brand-platinum">
-			<div className="flex flex-row items-center font-title text-5xl md:text-7xl tracking-tight select-none tabular-nums">
-				{digits.map((digit, index) => (
-					<span
-						key={`${index}-${digit}`}
-						className="inline-block"
-					>
-						{digit}
-					</span>
-				))}
-				<span className="inline-block font-sans text-brand-yellow font-light ml-2">
-					%
-				</span>
+			<div className="h-16 flex items-center justify-center text-center max-w-md md:max-w-xl px-6">
+				<p
+					key={messageIndex}
+					className="font-body text-brand-platinum/80 text-lg md:text-xl text-center select-none slide-fade-in"
+				>
+					{currentMessage}
+				</p>
 			</div>
-			<div className="w-48 h-1 bg-brand-platinum/25 mt-4">
+			<div className="w-72 md:w-96 h-1.5 bg-brand-platinum/20 mt-6 rounded-full overflow-hidden">
 				<div
-					className="h-full bg-brand-yellow"
+					className="h-full bg-brand-yellow pulse-glow rounded-full"
 					style={{
 						width: `${discreteProgress}%`,
 						transition: "width 125ms ease-out",
 					}}
 				/>
 			</div>
+
+			<style jsx global>{`
+				@keyframes slideFadeIn {
+					from {
+						opacity: 0;
+						transform: translateY(8px);
+					}
+					to {
+						opacity: 1;
+						transform: translateY(0);
+					}
+				}
+
+				.slide-fade-in {
+					animation: slideFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+				}
+
+				@keyframes pulseGlow {
+					0%, 100% {
+						opacity: 0.85;
+						filter: drop-shadow(0 0 2px #fdca40);
+					}
+					50% {
+						opacity: 1;
+						filter: drop-shadow(0 0 10px #fdca40);
+					}
+				}
+
+				.pulse-glow {
+					animation: pulseGlow 1.8s ease-in-out infinite;
+				}
+			`}</style>
 		</div>
 	);
 }
