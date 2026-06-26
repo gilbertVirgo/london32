@@ -7,7 +7,6 @@ interface LoaderProps {
 }
 
 export default function Loader({ onComplete }: LoaderProps) {
-	const [progress, setProgress] = useState(0);
 	const [discreteProgress, setDiscreteProgress] = useState(15);
 
 	useEffect(() => {
@@ -27,11 +26,17 @@ export default function Loader({ onComplete }: LoaderProps) {
 		let targetProgress = 15;
 		let forceComplete = false;
 
+		const handleComplete = () => {
+			onComplete();
+		};
+
 		// Bypass loader in automated test environments to prevent delays and test timeouts
 		if (typeof window !== "undefined" && window.navigator.webdriver) {
 			forceComplete = true;
 			targetProgress = 100;
 			setDiscreteProgress(100);
+			handleComplete();
+			return;
 		}
 
 		// Safety timeout: 12 seconds max loading time
@@ -39,6 +44,8 @@ export default function Loader({ onComplete }: LoaderProps) {
 			forceComplete = true;
 			targetProgress = 100;
 			setDiscreteProgress(100);
+			// 125ms width transition duration + 250ms feedback delay = 375ms
+			setTimeout(handleComplete, 375);
 		}, 12000);
 
 		// Periodically measure real DOM progress for above-the-fold elements
@@ -47,22 +54,17 @@ export default function Loader({ onComplete }: LoaderProps) {
 
 			// We only want to measure and wait for above-the-fold (critical) assets
 			// to avoid blocking on lazy-loaded below-the-fold images and videos.
-			const viewportHeight =
-				typeof window !== "undefined" ? window.innerHeight : 800;
+			const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 800;
 
-			const videos = Array.from(
-				document.querySelectorAll("video"),
-			).filter((v) => {
+			const videos = Array.from(document.querySelectorAll("video")).filter((v) => {
 				const rect = v.getBoundingClientRect();
 				return rect.top < viewportHeight;
 			});
 
-			const images = Array.from(document.querySelectorAll("img")).filter(
-				(img) => {
-					const rect = img.getBoundingClientRect();
-					return rect.top < viewportHeight;
-				},
-			);
+			const images = Array.from(document.querySelectorAll("img")).filter((img) => {
+				const rect = img.getBoundingClientRect();
+				return rect.top < viewportHeight;
+			});
 
 			// If no critical elements are found yet, we assume minimum expected ones
 			const expectedVideos = Math.max(1, videos.length);
@@ -88,7 +90,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 			const calculatedPercent = Math.round(
 				(loadedItems / totalItems) * 100,
 			);
-
+			
 			// Target progress can only increase, and maxes out at 99% until fully loaded
 			const newTarget = Math.min(99, calculatedPercent);
 			if (newTarget > targetProgress) {
@@ -98,51 +100,25 @@ export default function Loader({ onComplete }: LoaderProps) {
 
 			// If everything is truly loaded, target is 100%
 			const allVideosLoaded =
-				videos.length > 0 && videos.every((v) => v.readyState >= 3);
+				videos.length > 0 &&
+				videos.every((v) => v.readyState >= 3);
 			const allImagesLoaded =
 				images.length > 0 &&
 				images.every((i) => i.complete && i.naturalWidth > 0);
-
+				
 			if (fontsLoaded && allVideosLoaded && allImagesLoaded) {
 				targetProgress = 100;
 				setDiscreteProgress(100);
+				clearInterval(measureInterval);
+				clearTimeout(safetyTimeout);
+				// 125ms width transition duration + 250ms feedback delay = 375ms
+				setTimeout(handleComplete, 375);
 			}
 		}, 100);
-
-		// Smoothly animate the progress state towards targetProgress
-		const timer = setInterval(() => {
-			if (targetProgress === 100) {
-				clearInterval(timer);
-				clearInterval(measureInterval);
-				setTimeout(onComplete, 250);
-				return;
-			}
-
-			setProgress((prev) => {
-				if (prev >= 100) {
-					clearInterval(timer);
-					clearInterval(measureInterval);
-					setTimeout(onComplete, 250);
-					return 100;
-				}
-
-				if (prev < targetProgress) {
-					return prev + 1;
-				}
-
-				// Slow crawl to 95% if not loaded yet
-				if (prev < 95 && !forceComplete) {
-					return prev + 0.1;
-				}
-
-				return prev;
-			});
-		}, 20);
 
 		return () => {
 			clearTimeout(safetyTimeout);
 			clearInterval(measureInterval);
-			clearInterval(timer);
 		};
 	}, [onComplete]);
 
@@ -153,7 +129,10 @@ export default function Loader({ onComplete }: LoaderProps) {
 		<div className="fixed inset-0 z-[5000] flex flex-col items-center justify-center bg-brand-charcoal text-brand-platinum">
 			<div className="flex flex-row items-center font-title text-5xl md:text-7xl tracking-tight select-none tabular-nums">
 				{digits.map((digit, index) => (
-					<span key={`${index}-${digit}`} className="inline-block">
+					<span
+						key={`${index}-${digit}`}
+						className="inline-block"
+					>
 						{digit}
 					</span>
 				))}
@@ -163,8 +142,11 @@ export default function Loader({ onComplete }: LoaderProps) {
 			</div>
 			<div className="w-48 h-1 bg-brand-platinum/25 mt-4">
 				<div
-					className="h-full bg-brand-yellow transition-all duration-100 ease-out"
-					style={{ width: `${progress}%` }}
+					className="h-full bg-brand-yellow"
+					style={{
+						width: `${discreteProgress}%`,
+						transition: "width 125ms ease-out",
+					}}
 				/>
 			</div>
 		</div>
