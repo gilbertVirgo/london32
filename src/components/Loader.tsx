@@ -47,24 +47,29 @@ export default function Loader({ onComplete }: LoaderProps) {
 
 			// We only want to measure and wait for above-the-fold (critical) assets
 			// to avoid blocking on lazy-loaded below-the-fold images and videos.
-			const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 800;
+			const viewportHeight =
+				typeof window !== "undefined" ? window.innerHeight : 800;
 
-			const videos = Array.from(document.querySelectorAll("video")).filter((v) => {
+			const videos = Array.from(
+				document.querySelectorAll("video"),
+			).filter((v) => {
 				const rect = v.getBoundingClientRect();
 				return rect.top < viewportHeight;
 			});
 
-			const images = Array.from(document.querySelectorAll("img")).filter((img) => {
-				const rect = img.getBoundingClientRect();
-				return rect.top < viewportHeight;
-			});
+			const images = Array.from(document.querySelectorAll("img")).filter(
+				(img) => {
+					const rect = img.getBoundingClientRect();
+					return rect.top < viewportHeight;
+				},
+			);
 
 			// If no critical elements are found yet, we assume minimum expected ones
 			const expectedVideos = Math.max(1, videos.length);
 			const expectedImages = Math.max(1, images.length);
 
 			let loadedItems = 0;
-			let totalItems = expectedVideos + expectedImages + 1; // +1 for fonts
+			const totalItems = expectedVideos + expectedImages + 1; // +1 for fonts
 
 			if (fontsLoaded) loadedItems++;
 
@@ -83,7 +88,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 			const calculatedPercent = Math.round(
 				(loadedItems / totalItems) * 100,
 			);
-			
+
 			// Target progress can only increase, and maxes out at 99% until fully loaded
 			const newTarget = Math.min(99, calculatedPercent);
 			if (newTarget > targetProgress) {
@@ -93,12 +98,11 @@ export default function Loader({ onComplete }: LoaderProps) {
 
 			// If everything is truly loaded, target is 100%
 			const allVideosLoaded =
-				videos.length > 0 &&
-				videos.every((v) => v.readyState >= 3);
+				videos.length > 0 && videos.every((v) => v.readyState >= 3);
 			const allImagesLoaded =
 				images.length > 0 &&
 				images.every((i) => i.complete && i.naturalWidth > 0);
-				
+
 			if (fontsLoaded && allVideosLoaded && allImagesLoaded) {
 				targetProgress = 100;
 				setDiscreteProgress(100);
@@ -110,7 +114,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 			if (targetProgress === 100) {
 				clearInterval(timer);
 				clearInterval(measureInterval);
-				onComplete();
+				setTimeout(onComplete, 250);
 				return;
 			}
 
@@ -118,7 +122,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 				if (prev >= 100) {
 					clearInterval(timer);
 					clearInterval(measureInterval);
-					onComplete();
+					setTimeout(onComplete, 250);
 					return 100;
 				}
 
@@ -149,10 +153,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 		<div className="fixed inset-0 z-[5000] flex flex-col items-center justify-center bg-brand-charcoal text-brand-platinum">
 			<div className="flex flex-row items-center font-title text-5xl md:text-7xl tracking-tight select-none tabular-nums">
 				{digits.map((digit, index) => (
-					<span
-						key={`${index}-${digit}`}
-						className="inline-block"
-					>
+					<span key={`${index}-${digit}`} className="inline-block">
 						{digit}
 					</span>
 				))}
