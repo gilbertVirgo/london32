@@ -8,6 +8,7 @@ interface LoaderProps {
 
 export default function Loader({ onComplete }: LoaderProps) {
 	const [progress, setProgress] = useState(0);
+	const [discreteProgress, setDiscreteProgress] = useState(15);
 
 	useEffect(() => {
 		let fontsLoaded = false;
@@ -30,12 +31,14 @@ export default function Loader({ onComplete }: LoaderProps) {
 		if (typeof window !== "undefined" && window.navigator.webdriver) {
 			forceComplete = true;
 			targetProgress = 100;
+			setDiscreteProgress(100);
 		}
 
 		// Safety timeout: 12 seconds max loading time
 		const safetyTimeout = setTimeout(() => {
 			forceComplete = true;
 			targetProgress = 100;
+			setDiscreteProgress(100);
 		}, 12000);
 
 		// Periodically measure real DOM progress for above-the-fold elements
@@ -85,6 +88,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 			const newTarget = Math.min(99, calculatedPercent);
 			if (newTarget > targetProgress) {
 				targetProgress = newTarget;
+				setDiscreteProgress(newTarget);
 			}
 
 			// If everything is truly loaded, target is 100%
@@ -97,6 +101,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 				
 			if (fontsLoaded && allVideosLoaded && allImagesLoaded) {
 				targetProgress = 100;
+				setDiscreteProgress(100);
 			}
 		}, 100);
 
@@ -130,7 +135,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 		};
 	}, [onComplete]);
 
-	const percentStr = String(Math.floor(progress));
+	const percentStr = String(Math.floor(discreteProgress));
 	const digits = percentStr.split("");
 
 	return (
