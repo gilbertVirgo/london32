@@ -15,6 +15,7 @@ const MESSAGES = [
 export default function Loader({ onComplete }: LoaderProps) {
 	const [discreteProgress, setDiscreteProgress] = useState(15);
 	const [messageIndex, setMessageIndex] = useState(0);
+	const [isFadingOut, setIsFadingOut] = useState(false);
 
 	useEffect(() => {
 		let fontsLoaded = false;
@@ -34,7 +35,8 @@ export default function Loader({ onComplete }: LoaderProps) {
 		let forceComplete = false;
 
 		const handleComplete = () => {
-			onComplete();
+			setIsFadingOut(true);
+			setTimeout(onComplete, 125);
 		};
 
 		// Bypass loader in automated test environments to prevent delays and test timeouts
@@ -42,7 +44,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 			forceComplete = true;
 			targetProgress = 100;
 			setDiscreteProgress(100);
-			handleComplete();
+			onComplete(); // Unmount immediately in test environments
 			return;
 		}
 
@@ -136,13 +138,20 @@ export default function Loader({ onComplete }: LoaderProps) {
 	}, [onComplete]);
 
 	const currentMessage = MESSAGES[messageIndex];
+	const percentStr = String(Math.floor(discreteProgress));
+	const digits = percentStr.split("");
 
 	return (
-		<div className="fixed inset-0 z-[5000] flex flex-col items-center justify-center bg-brand-charcoal text-brand-platinum">
+		<div
+			className={`fixed inset-0 z-[5000] flex flex-col items-center justify-center bg-brand-charcoal text-brand-platinum ${isFadingOut ? "opacity-0" : "opacity-100"}`}
+			style={{
+				transition: "opacity 125ms ease-out",
+			}}
+		>
 			<div className="h-16 flex items-center justify-center text-center max-w-md md:max-w-xl px-6">
 				<p
 					key={messageIndex}
-					className="font-body text-brand-platinum/80 text-lg md:text-xl text-center select-none slide-fade-in"
+					className="font-body text-brand-platinum/80 text-lg md:text-base text-center select-none slide-fade-in"
 				>
 					{currentMessage}
 				</p>
